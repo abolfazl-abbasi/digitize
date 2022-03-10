@@ -17,7 +17,7 @@ function App() {
   const [products, setProducts] = useState([...Products]);
   const [sortWith, setSortWith] = useState("");
   const [groupingWith, setGroupingWith] = useState("smartPhone");
-  const [filterWith, setFilterWith] = useState("");
+  // const [filterWith, setFilterWith] = useState("");
 
   const handleSetColor = (e, product) => {
     const name = e.target.attributes.name.value;
@@ -44,9 +44,9 @@ function App() {
     setGroupingWith(e.currentTarget.attributes.name.value);
   };
 
-  const handleFilter = (e) => {
-    setGroupingWith(e.currentTarget.attributes.name.value);
-  };
+  // const handleFilter = (e) => {
+  //   setGroupingWith(e.currentTarget.attributes.name.value);
+  // };
 
   const handleAccr = (e) => {
     const items = document.querySelector(
