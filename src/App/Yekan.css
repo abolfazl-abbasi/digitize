@@ -13,5 +13,5 @@
       format("truetype"); /* Safari, Android, iOS */
   font-weight: normal;
   font-style: normal;
-  font-display: fallback;
+  font-display: auto;
 }
