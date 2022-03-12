@@ -116,8 +116,8 @@ function App() {
 
         {/* Filter and Sort mobile section (( Mobile )) */}
         <div className="my-5 md:hidden">
-          <div className="flex items-center space-x-2">
-            <div className="flex items-center w-1/2 rounded-md whitespace-nowrap shadow bg-white px-3 py-2 text-sm">
+          <div className="flex items-center">
+            <div className="flex items-center w-1/2 rounded-md whitespace-nowrap shadow bg-white px-3 py-2 ml-1 text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 ml-3 stroke-gray-400"
@@ -134,7 +134,7 @@ function App() {
               </svg>
               محبوب ترین
             </div>
-            <div className="flex items-center w-1/2 rounded-md shadow bg-white px-3 py-2 text-sm">
+            <div className="flex items-center w-1/2 rounded-md shadow bg-white px-3 py-2 mr-1 text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5 ml-3 stroke-gray-400"
