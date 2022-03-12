@@ -116,7 +116,7 @@ function App() {
 
         {/* Filter and Sort mobile section (( Mobile )) */}
         <div className="my-5 md:hidden">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center space-x-2">
             <div className="flex items-center w-1/2 rounded-md whitespace-nowrap shadow bg-white px-3 py-2 text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -155,7 +155,7 @@ function App() {
         </div>
 
         {/* Navigator (( Mobile )) */}
-        <div className="bg-white shadow-2xl px-3 z-50 fixed -bottom-1 left-0 w-full h-16 flex md:hidden items-center justify-between rounded-t-lg">
+        <div className="bg-white shadow-2xl px-5 z-50 fixed -bottom-1 left-0 w-full h-16 flex md:hidden items-center justify-between rounded-t-lg">
           <a href="/">
             {location.pathname !== "/" ? (
               <svg
