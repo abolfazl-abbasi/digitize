@@ -4,5 +4,9 @@
 @tailwind utilities;
 
 body {
-  @apply bg-gray-100 px-6;
+  @apply bg-gray-100;
+}
+
+.PriceRange::-webkit-slider-thumb {
+  @apply appearance-none w-3 h-3 rounded-full bg-white drop-shadow-lg;
 }
