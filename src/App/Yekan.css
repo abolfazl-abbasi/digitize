@@ -1,7 +1,7 @@
 /* Webfont: Yekan */
 @font-face {
   font-family: "Yekan";
-  src: url("./../assets/iransansx-cufonfonts/IRANSansXRegular.ttf");
+  src: url("./../assets/iranyekan-cufonfonts/Qs_Iranyekan medium.ttf");
   font-weight: normal;
   font-style: normal;
   text-rendering: optimizeLegibility;
@@ -9,7 +9,7 @@
 }
 @font-face {
   font-family: "Yekan";
-  src: url("./../assets/iransansx-cufonfonts/IRANSansXBold.ttf");
+  src: url("./../assets/iranyekan-cufonfonts/Qs_Iranyekan\ bold.ttf");
   font-weight: bold;
   font-style: normal;
   text-rendering: optimizeLegibility;
@@ -17,8 +17,24 @@
 }
 @font-face {
   font-family: "Yekan";
-  src: url("./../assets/iransansx-cufonfonts/IRANSansXLight.ttf");
-  font-weight: lighter;
+  src: url("./../assets/iranyekan-cufonfonts/Qs_Iranyekan\ light.ttf");
+  font-weight: 300;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+  font-display: auto;
+}
+@font-face {
+  font-family: "Yekan";
+  src: url("./../assets/iranyekan-cufonfonts/Qs_Iranyekan\ thin.ttf");
+  font-weight: 100;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+  font-display: auto;
+}
+@font-face {
+  font-family: "Yekan";
+  src: url("./../assets/iranyekan-cufonfonts/Qs_Iranyekan\ extrabold.ttf");
+  font-weight: 800;
   font-style: normal;
   text-rendering: optimizeLegibility;
   font-display: auto;
