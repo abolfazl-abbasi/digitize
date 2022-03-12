@@ -18,7 +18,7 @@ function App() {
   const [products, setProducts] = useState([...Products]);
   const [sortWith, setSortWith] = useState("");
   const [groupingWith, setGroupingWith] = useState("smartPhone");
-  const [priceRange, setPriceRange] = useState();
+  const [, setPriceRange] = useState();
   // const [filterWith, setFilterWith] = useState("");
 
   const handleSetColor = (e, product) => {
@@ -279,7 +279,7 @@ function App() {
         </div>
       </div>
 
-      <header className="w-full bg-white box-shadow-md h-20 fixed z-[9999] hidden md:flex">
+      <header className="w-full bg-white box-shadow-xl h-20 fixed z-[9999] hidden md:flex">
         <div className="flex items-center justify-between container mx-auto">
           <div className="flex items-center justify-center">
             <div className="hidden lg:block">
@@ -676,7 +676,7 @@ function App() {
                   <img className="" src={product.image} alt={product.title} />
                   <div
                     className="bg-[#ffffff42] p-1 inline-flex rounded-full absolute right-2 top-2 cursor-pointer"
-                    onClick={(e) => handleLike(product)}
+                    onClick={() => handleLike(product)}
                   >
                     {product.liked ? (
                       <svg
