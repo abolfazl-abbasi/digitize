@@ -74,7 +74,7 @@ function App() {
   return (
     <>
       {/* app bar (( Mobile )) */}
-      <div className="container px-5">
+      <div className="container px-5 mx-auto">
         <header className="mt-5 md:hidden">
           <div className="flex items-center justify-between">
             <div>
@@ -672,8 +672,12 @@ function App() {
                 className="bg-white rounded-lg shadow-md p-1 sm:p-2"
                 key={product.id}
               >
-                <div className="bg-gray-400 min-h-[140px] rounded-lg relative">
-                  <img className="" src={product.image} alt={product.title} />
+                <div className="bg-gray-400 min-h-[140px] rounded-lg relative flex items-center justify-center">
+                  <img
+                    className="w-3/4"
+                    src={product.image}
+                    alt={product.title}
+                  />
                   <div
                     className="bg-[#ffffff42] p-1 inline-flex rounded-full absolute right-2 top-2 cursor-pointer"
                     onClick={() => handleLike(product)}
