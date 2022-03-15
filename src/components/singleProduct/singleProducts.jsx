@@ -110,7 +110,7 @@ function Product() {
                   </SwiperSlide>
                 ))}
               </Swiper>
-              <div className="flex gap-x-4 items-center px-4 py-2 overflow-auto absolute bottom-0">
+              <div className="flex items-center px-4 py-2 overflow-auto fixed bottom-0">
                 {singleProduct.images.map((image) => (
                   <div
                     key={singleProduct.images.indexOf(image)}
@@ -119,11 +119,11 @@ function Product() {
                         .getElementById("swiper")
                         .swiper.slideTo(singleProduct.images.indexOf(image))
                     }
-                    className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 sm:w-1/6 flex-shrink-0"
+                    className="ring-1 flex items-center ml-8 justify-center border-2 border-gray-400 p-2 rounded-lg w-1/4 sm:w-1/5 flex-shrink-0"
                   >
                     <img
                       src={image}
-                      className="w-12"
+                      className="w-32"
                       alt={`${singleProduct.titleEn}`}
                     />
                   </div>
@@ -149,7 +149,7 @@ function Product() {
             </div>
           </div>
           <div className="flex items-center flex-wrap justify-center gap-y-4 my-6">
-            <div className="flex text-gray-700 items-center my-1">
+            <div className="flex text-gray-700 items-center my-2">
               <div className="w-4 h-4 rounded-full bg-gray-300 mx-2">
                 <HiOutlineDeviceMobile className="w-4 h-4 mr-[5px] mt-[5px]" />
               </div>
@@ -158,7 +158,7 @@ function Product() {
                 {singleProduct.services.seller}
               </span>
             </div>
-            <div className="flex text-gray-700 items-center my-1">
+            <div className="flex text-gray-700 items-center my-2">
               <div className="w-4 h-4 rounded-full bg-gray-300 mx-2">
                 <HiOutlineShieldCheck className="w-4 h-4 mr-[5px] mt-[5px]" />
               </div>
@@ -167,7 +167,7 @@ function Product() {
                 {singleProduct.services.warranty}
               </span>
             </div>
-            <div className="flex text-gray-700 items-center my-1">
+            <div className="flex text-gray-700 items-center my-2">
               <div className="w-4 h-4 rounded-full bg-gray-300 mx-2">
                 <HiOutlineTruck className="w-4 h-4 mr-[5px] mt-[5px]" />
               </div>
