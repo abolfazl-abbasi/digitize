@@ -6,6 +6,10 @@ import {
   HiOutlineShieldCheck,
   HiOutlineTruck,
 } from "react-icons/hi";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import { Navigation } from "swiper";
 
 function Product() {
   return (
@@ -40,53 +44,74 @@ function Product() {
         </div>
       </section>
 
-      <section className="px-5 md:hidden mb-6">
+      <section className="px-5 md:hidden my-6">
         <div className="flex flex-col items-center justify-center">
           <div className="flex items-center flex-col">
             <div className="flex items-center justify-center w-full">
-              <img
-                src={require("./../../assets/img/Home/1.png")}
-                className="w-3/4 sm:w-1/2"
-                alt=""
-              />
+              <Swiper
+                modules={[Navigation]}
+                className="w-screen h-1/4 flex items-center justify-center"
+              >
+                <SwiperSlide className="flex items-center justify-center">
+                  <img
+                    src={require("./../../assets/img/Home/1.png")}
+                    className="w-2/5 sm:w-1/4"
+                    alt=""
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="flex items-center justify-center">
+                  <img
+                    src={require("./../../assets/img/Single Product/Gallery - 3.png")}
+                    className="w-2/5 sm:w-1/4"
+                    alt=""
+                  />
+                </SwiperSlide>
+                <SwiperSlide className="flex items-center justify-center">
+                  <img
+                    src={require("./../../assets/img/Single Product/Gallery - 4.png")}
+                    className="w-2/5 sm:w-1/4"
+                    alt=""
+                  />
+                </SwiperSlide>
+              </Swiper>
             </div>
-            <div className="flex gap-x-4 items-center px-4 py-2 overflow-auto">
-              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 flex-shrink-0">
+            {/* <div className="flex gap-x-4 items-center px-4 py-2 overflow-auto">
+              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 sm:w-1/6 flex-shrink-0">
                 <img
                   src={require("./../../assets/img/Single Product/Gallery - 2.png")}
-                  className="w-3/4 sm:w-1/2"
+                  className="w-3/4 sm:w-1/3"
                   alt=""
                 />
               </div>
-              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 flex-shrink-0">
+              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 sm:w-1/6 flex-shrink-0">
                 <img
                   src={require("./../../assets/img/Single Product/Gallery - 3.png")}
-                  className="w-3/4 sm:w-1/2"
+                  className="w-3/4 sm:w-1/3"
                   alt=""
                 />
               </div>
-              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 flex-shrink-0">
+              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 sm:w-1/6 flex-shrink-0">
                 <img
                   src={require("./../../assets/img/Single Product/Gallery - 4.png")}
-                  className="w-3/4 sm:w-1/2"
+                  className="w-3/4 sm:w-1/3"
                   alt=""
                 />
               </div>
-              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 flex-shrink-0">
+              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 sm:w-1/6 flex-shrink-0">
                 <img
                   src={require("./../../assets/img/Single Product/Gallery - 4.png")}
-                  className="w-3/4 sm:w-1/2"
+                  className="w-3/4 sm:w-1/3"
                   alt=""
                 />
               </div>
-              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 flex-shrink-0">
+              <div className="ring-1 flex items-center justify-center border-2 border-gray-400 p-2 rounded-lg w-1/5 sm:w-1/6 flex-shrink-0">
                 <img
                   src={require("./../../assets/img/Single Product/Gallery - 4.png")}
-                  className="w-3/4 sm:w-1/2"
+                  className="w-3/4 sm:w-1/3"
                   alt=""
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="flex flex-col items-center text-center my-10 gap-1">
             <h1 className="text-lg font-bold">آیفون 13 pro max</h1>
