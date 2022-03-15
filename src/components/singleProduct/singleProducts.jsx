@@ -179,9 +179,9 @@ function Product() {
           </div>
           <>
             <div className="w-full bg-white px-3 py-2 rounded-lg">
-              <h2 className="mb-4">ویژگی ها : </h2>
+              <h2 className="mb-2">ویژگی ها : </h2>
               <ul className="gap-2 flex flex-col">
-                <li className="flex gap-x-4 text-sm flex-col">
+                <li className="flex gap-x-4 text-sm flex-col my-2">
                   <span className="propertyList text-sm text-gray-600">
                     حافظه داخلی :
                   </span>
@@ -190,7 +190,7 @@ function Product() {
                   </span>
                 </li>
                 <hr />
-                <li className="flex gap-x-4 text-sm flex-col">
+                <li className="flex gap-x-4 text-sm flex-col my-2">
                   <span className="propertyList text-sm text-gray-600">
                     اندازه صفحه نمایش :
                   </span>
@@ -199,7 +199,7 @@ function Product() {
                   </span>
                 </li>
                 <hr />
-                <li className="flex gap-x-4 text-sm flex-col">
+                <li className="flex gap-x-4 text-sm flex-col my-2">
                   <span className="propertyList text-sm text-gray-600">
                     شبکه ها :
                   </span>
