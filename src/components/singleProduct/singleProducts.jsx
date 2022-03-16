@@ -390,13 +390,13 @@ function Product() {
                 </div>
               </div>
               <div>
-                <div className="flex items-center flex-wrap justify-center my-6 lg:my-4 lg:w-60 lg:bg-white px-2 py-3 rounded-lg">
+                <div className="flex items-center flex-wrap justify-center my-6 lg:my-4 lg:w-60 lg:bg-white px-2 py-3 rounded-lg lg:shadow-lg">
                   <div className="flex text-gray-700 items-center my-2">
                     <div className="w-4 h-4 rounded-full bg-gray-300 mx-2">
                       <HiOutlineDeviceMobile className="w-4 h-4 mr-[5px] mt-[5px]" />
                     </div>
-                    <span className="text-xs mx-1">فروشنده :</span>
-                    <span className="text-[10px] font-bold mx-1">
+                    <span className="text-xs mx-1 font-light">فروشنده :</span>
+                    <span className="text-xs font-bold mx-1">
                       {singleProduct.services.seller}
                     </span>
                   </div>
@@ -404,8 +404,8 @@ function Product() {
                     <div className="w-4 h-4 rounded-full bg-gray-300 mx-2">
                       <HiOutlineShieldCheck className="w-4 h-4 mr-[5px] mt-[5px]" />
                     </div>
-                    <span className="text-xs mx-1">گارانتی :</span>
-                    <span className="text-[10px] font-bold mx-1">
+                    <span className="text-xs mx-1 font-light">گارانتی :</span>
+                    <span className="text-xs font-bold mx-1">
                       {singleProduct.services.warranty}
                     </span>
                   </div>
@@ -413,8 +413,10 @@ function Product() {
                     <div className="w-4 h-4 rounded-full bg-gray-300 mx-2">
                       <HiOutlineTruck className="w-4 h-4 mr-[5px] mt-[5px]" />
                     </div>
-                    <span className="text-xs mx-1">ارسال توسط :</span>
-                    <span className="text-[10px] font-bold mx-1">
+                    <span className="text-xs mx-1 font-light">
+                      ارسال توسط :
+                    </span>
+                    <span className="text-xs font-bold mx-1">
                       {singleProduct.services.postedBy}
                     </span>
                   </div>
@@ -422,7 +424,7 @@ function Product() {
                     <button className="bg-orange-500 text-white p-2 rounded-md">
                       افزودن به سبد
                     </button>
-                    <span className="text-orange-500 flex flex-col justify-center items-center text-sm">
+                    <span className="text-orange-500 flex flex-col justify-center items-center text-sm font-bold">
                       <span>{singleProduct.price}</span>
                       <span>تومان</span>
                     </span>
@@ -610,6 +612,18 @@ function Product() {
           </div>
         </div>
       </footer>
+
+      {/* Navigator (( Mobile )) */}
+      <div className="bg-white shadow-2xl px-5 z-50 sticky bottom-0 left-0 w-full h-16 flex md:hidden items-center justify-between rounded-t-lg">
+        <div className="flex items-center justify-between w-full container mx-auto">
+          <button className="bg-orange-500 w-1/2 py-2 rounded-md text-white">
+            افزودن به سبد
+          </button>
+          <span className="text-orange-500 flex justify-center items-center mr-4 font-bold text-xl">
+            <span>{singleProduct.price} تومان</span>
+          </span>
+        </div>
+      </div>
     </>
   );
 }
