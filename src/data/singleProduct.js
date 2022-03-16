@@ -7,8 +7,13 @@ const singleProduct = {
   activeColor: "",
   mainImage: require("./../assets/img/Home/1.png"),
   images: [
-    require("./../assets/img/Home/1.png"),
+    require("./../assets/img/Single Product/Gallery - 4.png"),
     require("./../assets/img/Single Product/Gallery - 3.png"),
+    require("./../assets/img/Single Product/Gallery - 2.png"),
+    require("./../assets/img/Single Product/Gallery - 3.png"),
+    require("./../assets/img/Single Product/Gallery - 4.png"),
+    require("./../assets/img/Single Product/Gallery - 3.png"),
+    require("./../assets/img/Single Product/Gallery - 2.png"),
     require("./../assets/img/Single Product/Gallery - 4.png"),
   ],
   services: {
@@ -48,7 +53,7 @@ const singleProduct = {
     ],
 
     camera: [
-      "باتری",
+      "دوربین",
       `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
       استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
       در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
@@ -63,7 +68,7 @@ const singleProduct = {
     ],
 
     design: [
-      "باتری",
+      "طراحی",
       `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
       استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
       در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
