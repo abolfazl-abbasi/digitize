@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   HiOutlineDeviceMobile,
   HiChevronDown,
@@ -17,18 +17,13 @@ import HeaderMobile from "../components/HeaderMobile";
 import Products from "../data/products";
 import { digitsEnToAr, addCommas } from "@persian-tools/persian-tools";
 
-import { useLocation, useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import SelectColor from "../components/SelectColor";
 
 function Product() {
   const par = useParams();
-  const loc = useLocation();
-  const his = useHistory();
-  if (Products.length < par.id) {
-    his.push("/");
-  }
-  const [index, setIndex] = useState(par.id - 1);
+  const [index] = useState(par.id - 1);
   const [products, setProducts] = useState([...Products]);
   const [isShow, setIsShow] = useState(false);
   const [groupingWith, setGroupingWith] = useState("smartPhone");
