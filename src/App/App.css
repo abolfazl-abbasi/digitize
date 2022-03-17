@@ -1,4 +1,4 @@
-@import url("/src/App/Yekan.css");
+@import url("./Yekan.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

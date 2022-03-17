@@ -1,19 +1,31 @@
 import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
-import ShopPage from "../components/Shop/Shop.jsx";
-import Product from "../components/singleProduct/singleProducts.jsx";
+import ShopPage from "../Pages/ShopPage.jsx";
+import Product from "../Pages/singleProductsPage.jsx";
 import "swiper/css/bundle";
+import { useEffect } from "react";
+import Products from "../data/products.js";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 function App() {
+  useEffect(() => {});
   return (
     <>
       <Switch>
         <Route path={"/"} exact>
           <ShopPage />
         </Route>
-        <Route path={"/product"}>
-          <Product />
-        </Route>
+        <Route
+          path={"/products/:id"}
+          render={(e) =>
+            e.match.params.id < Products.length ? (
+              <Product />
+            ) : (
+              e.history.push("/")
+            )
+          }
+        ></Route>
       </Switch>
     </>
   );
