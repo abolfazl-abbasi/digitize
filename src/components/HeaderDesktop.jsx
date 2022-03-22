@@ -1,5 +1,6 @@
 import React from "react";
 import { HiOutlineSearch } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const HeaderDesktop = ({ onSearch }) => {
   return (
@@ -37,34 +38,34 @@ const HeaderDesktop = ({ onSearch }) => {
                       : "text-gray-400 hover:text-gray-600"
                   }`}
                 >
-                  <a href="##">خانه</a>
+                  <Link to={{ pathname: "/" }}>خانه</Link>
                 </li>
                 <li
                   className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
-                    window.location.pathname === ""
+                    window.location.pathname === "/categories"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
                   }`}
                 >
-                  <a href="##">دسته بندی ها</a>
+                  <Link to={{ pathname: "/categories" }}>دسته بندی ها</Link>
                 </li>
                 <li
                   className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
-                    window.location.pathname === ""
+                    window.location.pathname === "/cart"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
                   }`}
                 >
-                  <a href="##">سبد خرید</a>
+                  <Link to={{ pathname: "/cart" }}>سبد خرید</Link>
                 </li>
                 <li
                   className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
-                    window.location.pathname === ""
+                    window.location.pathname === "/favorites"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
                   }`}
                 >
-                  <a href="##">موردعلاقه ها</a>
+                  <Link to={{ pathname: "/favorites" }}>موردعلاقه ها</Link>
                 </li>
               </ul>
             </nav>

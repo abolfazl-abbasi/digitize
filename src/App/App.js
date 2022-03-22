@@ -5,6 +5,7 @@ import Product from "../Pages/singleProductsPage.jsx";
 import "swiper/css/bundle";
 import { useEffect } from "react";
 import Products from "../data/products.js";
+import Cart from "../Pages/CartPage.jsx";
 
 function App() {
   useEffect(() => {});
@@ -24,6 +25,9 @@ function App() {
             )
           }
         ></Route>
+        <Route path={"/cart"}>
+          <Cart />
+        </Route>
       </Switch>
     </>
   );

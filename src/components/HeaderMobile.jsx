@@ -1,13 +1,16 @@
 import React from "react";
 import { HiChevronDown, HiOutlineSearch } from "react-icons/hi";
+import { useHistory } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 
 const HeaderMobile = ({ title }) => {
+  const his = useHistory();
+
   return (
     <>
       <header className="mt-5 md:hidden">
-        <div className="container px-5 mx-auto">
+        <div className="container px-5 md:px-0 mx-auto">
           <div className="flex items-center justify-between">
             {window.location.pathname === "/" ? (
               <>
@@ -36,7 +39,7 @@ const HeaderMobile = ({ title }) => {
             ) : (
               <>
                 {/* Go Back */}
-                <div>
+                <div onClick={his.goBack}>
                   <div className="bg-white p-1 rounded-md shadow-lg cursor-pointer">
                     <HiChevronDown className="h-5 w-5 -rotate-90" />
                   </div>

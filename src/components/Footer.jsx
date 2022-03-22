@@ -1,5 +1,6 @@
 import React from "react";
 import { HiOutlineMail, HiOutlinePhone } from "react-icons/hi";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 
@@ -40,13 +41,13 @@ const Footer = () => {
                     محصولات
                   </li>
                   <li className="my-4 footer-list">
-                    <a href="##">تلفن همراه</a>
+                    <Link to={{ pathname: "/" }}>تلفن همراه</Link>
                   </li>
                   <li className="my-4 footer-list">
-                    <a href="##">لپ تاپ</a>
+                    <Link to={{ pathname: "/" }}>لپ تاپ</Link>
                   </li>
                   <li className="my-4 footer-list">
-                    <a href="##">ساعت هوشمند</a>
+                    <Link to={{ pathname: "/" }}>ساعت هوشمند</Link>
                   </li>
                 </ul>
               </div>
