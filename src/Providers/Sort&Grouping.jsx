@@ -3,7 +3,7 @@ import _ from "lodash";
 import React, { useState, createContext, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
-import Products from "../data/products";
+// import Products from "../data/products";
 import {
   ProductsShowContextProvider,
   useProducts,
