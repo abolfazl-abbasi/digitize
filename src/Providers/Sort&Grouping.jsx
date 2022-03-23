@@ -1,10 +1,13 @@
+import { wordsToNumber } from "@persian-tools/persian-tools";
 import _ from "lodash";
 import React, { useState, createContext, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Products from "../data/products";
 import {
   ProductsShowContextProvider,
   useProducts,
+  useProductsDispatcher,
   // useProductsDispatcher,
   useProductsShow,
 } from "./productsProvider";
@@ -51,7 +54,7 @@ export const useSaGDispatcher = () => {
 
   //? important \\
   const products = useProducts();
-  // const { setProducts } = useProductsDispatcher();
+  const { setProducts } = useProductsDispatcher();
 
   //? providers \\
   const grouping = useGrouping();
@@ -75,9 +78,8 @@ export const useSaGDispatcher = () => {
     if (loc.pathname.includes("/products/")) {
       his.push("/");
     }
-    setProductsShow(products.filter((pro) => pro.category === name));
-    setPriceRange(0);
-    setSort([]);
+    setProductsShow(_.filter(products, ["category", name]));
+    console.log(products);
   };
 
   const handleSort = (e) => {
@@ -89,19 +91,25 @@ export const useSaGDispatcher = () => {
       }
       if (name !== "") {
         setProductsShow(_.orderBy(productsShow, [name[0]], [name[1]]));
+        setProducts(_.orderBy(products, [name[0]], [name[1]]));
       }
     }
   };
 
-  const handlePriceRange = (e) => {
+  const handlePriceRange = async (e) => {
     const price = e.target.value || priceRange;
-    setPriceRange(price);
+    await setPriceRange(wordsToNumber(price));
     if (price === null || e) {
-      setProductsShow(products.filter((pro) => pro.price <= price));
+      await setProductsShow(
+        products.filter((pro) => pro.price < Number(price))
+      );
+      if (grouping !== "") {
+        setTimeout(() => {
+          console.log(_.filter(productsShow, ["category", grouping]), grouping);
+          setProductsShow(_.filter(productsShow, ["category", grouping]));
+        });
+      }
     }
-    setTimeout(() => {
-      handleSort(sort);
-    }, 1);
   };
 
   const handleSearch = (e) => {

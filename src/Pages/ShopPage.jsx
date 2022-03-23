@@ -40,7 +40,7 @@ import {
 import { useCart } from "../Providers/CartProvider";
 import Products from "../data/products";
 import _ from "lodash";
-
+// console.log(Products.map((pro) => pro.id === par.id));
 function ShopPage() {
   //? Providers \\
   // const products = useProducts();
@@ -215,7 +215,7 @@ function ShopPage() {
                           id="xiaomi"
                         />
                         <label className="pr-2 w-full text-sm" htmlFor="xiaomi">
-                          شیاِومی
+                          شیاِیَومی
                         </label>
                       </li>
                       <li className="w-full flex items-center hover:bg-gray-50 py-1">
@@ -348,12 +348,12 @@ function ShopPage() {
                             min={
                               _.minBy(Products, function (pro) {
                                 return pro.price;
-                              }).price + 100000
+                              }).price
                             }
                             max={
                               _.maxBy(Products, function (pro) {
                                 return pro.price;
-                              }).price - 100000
+                              }).price
                             }
                             onChange={(e) => handlePriceRange(e)}
                             name="priceRange"

@@ -19,15 +19,19 @@ import { Link } from "react-router-dom";
 import SelectColor from "../components/SelectColor";
 import Layout from "../Layouts/MainLayout";
 import { useCart, useCartDispatcher } from "../Providers/CartProvider";
+import { useGrouping, useSaGDispatcher } from "../Providers/Sort&Grouping";
+import { useProductsDispatcher } from "../Providers/productsProvider";
 
 function Product() {
   const par = useParams();
-  const [index] = useState(par.id - 1);
-  const [products, setProducts] = useState([...Products]);
   const [isShow, setIsShow] = useState(false);
-  const [groupingWith, setGroupingWith] = useState("smartPhone");
   const cart = useCart();
+  const grouping = useGrouping();
   const { handleAddToCart_FC } = useCartDispatcher();
+  const { handleSetColor } = useProductsDispatcher();
+  const { handleGrouping } = useSaGDispatcher();
+
+  const product = Products.find((pro) => pro.id === Number(par.id));
 
   const handleShowSlider = () => {
     if (!isShow) {
@@ -41,22 +45,9 @@ function Product() {
     }
   };
 
-  const handleGrouping = (e) => {
-    setGroupingWith(e.currentTarget.attributes.name.value);
-  };
-
-  const handleSetColor = (e, product) => {
-    const name = e.target.attributes.name.value;
-    const updateProducts = [...products];
-    const index = products.indexOf(product);
-    updateProducts[index] = { ...product };
-    updateProducts[index].activeColor = name;
-    setProducts([...updateProducts]);
-  };
-
   return (
     <>
-      <Layout title={products[index].titleFa}>
+      <Layout title={product.titleFa}>
         {/* BradCrumb (( Desktop )) */}
         <section className="mt-5 md:hidden">
           <div className="container mx-auto flex items-center text-[10px] font-bold px-6">
@@ -85,10 +76,10 @@ function Product() {
                   </h3>
                   <ul>
                     <li
-                      onClick={(e) => handleGrouping(e)}
+                      onClick={(e) => handleGrouping("smartPhone")}
                       name="smartPhone"
                       className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
-                        groupingWith === "smartPhone"
+                        grouping === "smartPhone"
                           ? "bg-gray-100"
                           : "opacity-40 hover:bg-gray-200"
                       }`}
@@ -99,9 +90,9 @@ function Product() {
                       <p className="mr-3">تلفن همراه</p>
                     </li>
                     <li
-                      onClick={(e) => handleGrouping(e)}
+                      onClick={(e) => handleGrouping("laptop")}
                       className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
-                        groupingWith === "laptop"
+                        grouping === "laptop"
                           ? "bg-gray-100"
                           : "opacity-40 hover:bg-gray-200"
                       }`}
@@ -113,9 +104,9 @@ function Product() {
                       <p className="mr-3">لپ تاپ</p>
                     </li>
                     <li
-                      onClick={(e) => handleGrouping(e)}
+                      onClick={(e) => handleGrouping("smartWatch")}
                       className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
-                        groupingWith === "smartWatch"
+                        grouping === "smartWatch"
                           ? "bg-gray-100"
                           : "opacity-40 hover:bg-gray-200"
                       }`}
@@ -161,42 +152,40 @@ function Product() {
                         className="w-screen lg:w-[200px] h-1/4 flex items-center justify-center"
                         id="swiper"
                       >
-                        {products[index].images.map((image) => (
+                        {product.images.map((image) => (
                           <SwiperSlide
                             className="flex items-center justify-center"
                             key={
-                              products[index].images.indexOf(image).toString() +
+                              product.images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                           >
                             <img
                               src={image}
                               className="w-2/5 sm:w-1/4 lg:w-[700px]"
-                              alt={products[index].titleEn}
+                              alt={product.titleEn}
                             />
                           </SwiperSlide>
                         ))}
                       </Swiper>
                       <div className="hidden lg:flex items-center px-4 lg:px-0 py-2 overflow-y-hidden lg:w-48 lg:h-20 slider-scroller">
-                        {products[index].images.map((image) => (
+                        {product.images.map((image) => (
                           <div
                             key={
-                              products[index].images.indexOf(image).toString() +
+                              product.images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                             onClick={() =>
                               document
                                 .getElementById("swiper")
-                                .swiper.slideTo(
-                                  products[index].images.indexOf(image)
-                                )
+                                .swiper.slideTo(product.images.indexOf(image))
                             }
                             className="border-1 flex items-center ml-8 lg:ml-4 justify-center border-2 border-gray-400 p-1 rounded-lg flex-shrink-0"
                           >
                             <img
                               src={image}
                               className="w-10"
-                              alt={`${products[index].titleEn}`}
+                              alt={`${product.titleEn}`}
                             />
                           </div>
                         ))}
@@ -206,11 +195,9 @@ function Product() {
                   <div className="w-60">
                     {/* Product Titles */}
                     <div className="flex flex-col items-center lg:items-start text-center my-10 lg:my-5 gap-1">
-                      <h1 className="text-lg font-bold">
-                        {products[index].titleFa}
-                      </h1>
+                      <h1 className="text-lg font-bold">{product.titleFa}</h1>
                       <p className="text-sm text-gray-600 font-light">
-                        {products[index].titleEn}
+                        {product.titleEn}
                       </p>
                     </div>
 
@@ -223,7 +210,7 @@ function Product() {
                       </span>
 
                       <SelectColor
-                        product={products[index]}
+                        product={product}
                         onSetColor={handleSetColor}
                       />
                     </div>
@@ -238,7 +225,7 @@ function Product() {
                             حافظه داخلی :
                           </span>
                           <span className="text-gray-500 mr-8">
-                            {products[index].properties.memory}
+                            {product.properties.memory}
                           </span>
                         </li>
                         <li className="flex gap-x-4 text-sm flex-col">
@@ -246,7 +233,7 @@ function Product() {
                             اندازه صفحه نمایش :
                           </span>
                           <span className="text-gray-500 mr-8">
-                            {products[index].properties.resolution} اینچ
+                            {product.properties.resolution} اینچ
                           </span>
                         </li>
 
@@ -255,12 +242,10 @@ function Product() {
                             شبکه ها :
                           </span>
                           <span className="text-gray-500 mr-8">
-                            {products[index].properties.networks.map((net) => (
+                            {product.properties.networks.map((net) => (
                               <p
                                 className="inline-block ml-2"
-                                key={products[
-                                  index
-                                ].properties.networks.indexOf(net)}
+                                key={product.properties.networks.indexOf(net)}
                               >
                                 {net}
                               </p>
@@ -289,42 +274,40 @@ function Product() {
                         className="w-screen h-4/5 flex items-center justify-center"
                         id="swiper2"
                       >
-                        {products[index].images.map((image) => (
+                        {product.images.map((image) => (
                           <SwiperSlide
                             className="flex items-center justify-center"
                             key={
-                              products[index].images.indexOf(image).toString() +
+                              product.images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                           >
                             <img
                               src={image}
                               className="w-72"
-                              alt={`${products[index].titleEn}`}
+                              alt={`${product.titleEn}`}
                             />
                           </SwiperSlide>
                         ))}
                       </Swiper>
                       <div className="flex items-center px-4 py-2 overflow-auto fixed bottom-0">
-                        {products[index].images.map((image) => (
+                        {product.images.map((image) => (
                           <div
                             key={
-                              products[index].images.indexOf(image).toString() +
+                              product.images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                             onClick={() =>
                               document
                                 .getElementById("swiper2")
-                                .swiper.slideTo(
-                                  products[index].images.indexOf(image)
-                                )
+                                .swiper.slideTo(product.images.indexOf(image))
                             }
                             className="ring-1 flex items-center ml-8 lg:mx-2 justify-center border-2 border-gray-400 p-2 rounded-lg w-1/4 sm:w-1/5 flex-shrink-0"
                           >
                             <img
                               src={image}
                               className="w-32"
-                              alt={`${products[index].titleEn}`}
+                              alt={`${product.titleEn}`}
                             />
                           </div>
                         ))}
@@ -344,7 +327,7 @@ function Product() {
                           فروشنده :
                         </span>
                         <span className="text-xs font-bold mx-1">
-                          {products[index].services.seller}
+                          {product.services.seller}
                         </span>
                       </div>
                       <div className="flex text-gray-700 items-center my-2 mx-1">
@@ -355,7 +338,7 @@ function Product() {
                           گارانتی :
                         </span>
                         <span className="text-xs font-bold mx-1">
-                          {products[index].services.warranty}
+                          {product.services.warranty}
                         </span>
                       </div>
                       <div className="flex text-gray-700 items-center my-2 mx-1">
@@ -366,7 +349,7 @@ function Product() {
                           ارسال توسط :
                         </span>
                         <span className="text-xs font-bold mx-1">
-                          {products[index].services.postedBy}
+                          {product.services.postedBy}
                         </span>
                       </div>
                     </div>
@@ -374,23 +357,21 @@ function Product() {
                     {/* Add To Cart and Price (( Desktop )) */}
                     <div className="hidden lg:flex items-center justify-between gap-x-4 mt-8">
                       {cart
-                        .map((pro) => pro.id === products[index].id)
+                        .map((pro) => pro.id === product.id)
                         .indexOf(true) !== -1 ? (
                         <button className="bg-orange-500 p-2 rounded-md text-white">
                           اضافه شد!
                         </button>
                       ) : (
                         <button
-                          onClick={(e) => handleAddToCart_FC(products[index])}
+                          onClick={(e) => handleAddToCart_FC(product)}
                           className="bg-orange-500 p-2 rounded-md text-white"
                         >
                           افزودن به سبد
                         </button>
                       )}
                       <span className="text-orange-500 flex flex-col justify-center items-center text-sm font-bold">
-                        <span>
-                          {digitsEnToAr(addCommas(products[index].price))}
-                        </span>
+                        <span>{digitsEnToAr(addCommas(product.price))}</span>
                         <span>تومان</span>
                       </span>
                     </div>
@@ -407,7 +388,7 @@ function Product() {
                         حافظه داخلی :
                       </span>
                       <span className="text-gray-500 mr-8 mt-1">
-                        {products[index].properties.memory}
+                        {product.properties.memory}
                       </span>
                     </li>
                     <hr />
@@ -416,7 +397,7 @@ function Product() {
                         اندازه صفحه نمایش :
                       </span>
                       <span className="text-gray-500 mr-8 mt-1">
-                        {products[index].properties.resolution} اینچ
+                        {product.properties.resolution} اینچ
                       </span>
                     </li>
                     <hr />
@@ -425,12 +406,10 @@ function Product() {
                         شبکه ها :
                       </span>
                       <span className="text-gray-500 mr-8 mt-1">
-                        {products[index].properties.networks.map((net) => (
+                        {product.properties.networks.map((net) => (
                           <p
                             className="inline-block ml-2"
-                            key={products[index].properties.networks.indexOf(
-                              net
-                            )}
+                            key={product.properties.networks.indexOf(net)}
                           >
                             {net}
                           </p>
@@ -444,7 +423,7 @@ function Product() {
                 <div className="w-full bg-white p-3 rounded-lg mt-4 flex flex-col px-5">
                   <h2 className=" mb-3">نقد و بررسی این محصول</h2>
                   <p className="text-xs text-gray-500 min-h-24 max-h-44 text-ellipsis overflow-hidden inline-block text-justify leading-6">
-                    {products[index].properties.review}
+                    {product.properties.review}
                   </p>
                   <button className="inline-block text-orange-500 self-end mt-3">
                     ادامه مطلب
@@ -466,38 +445,30 @@ function Product() {
                   </div>
                   <div className="lg:hidden">
                     <div className="my-3 px-2">
-                      <h2 className="my-3">
-                        {products[index].properties.design[0]}
-                      </h2>
+                      <h2 className="my-3">{product.properties.design[0]}</h2>
                       <p className="text-xs text-gray-500 text-justify leading-6">
-                        {products[index].properties.design[1]}
+                        {product.properties.design[1]}
                       </p>
                     </div>
                   </div>
                   {/* product properties Review (( Desktop )) */}
                   <div className="hidden lg:block">
                     <div className="mb-12 px-2">
-                      <h2 className="mb-2">
-                        {products[index].properties.design[0]}
-                      </h2>
+                      <h2 className="mb-2">{product.properties.design[0]}</h2>
                       <p className="text-xs text-gray-500 text-justify leading-6">
-                        {products[index].properties.design[1]}
+                        {product.properties.design[1]}
                       </p>
                     </div>
                     <div className="mb-12 px-2">
-                      <h2 className="mb-2">
-                        {products[index].properties.battery[0]}
-                      </h2>
+                      <h2 className="mb-2">{product.properties.battery[0]}</h2>
                       <p className="text-xs text-gray-500 text-justify leading-6">
-                        {products[index].properties.battery[1]}
+                        {product.properties.battery[1]}
                       </p>
                     </div>
                     <div className="mb-12 px-2">
-                      <h2 className="mb-2">
-                        {products[index].properties.camera[0]}
-                      </h2>
+                      <h2 className="mb-2">{product.properties.camera[0]}</h2>
                       <p className="text-xs text-gray-500 text-justify leading-6">
-                        {products[index].properties.camera[1]}
+                        {product.properties.camera[1]}
                       </p>
                     </div>
                   </div>
@@ -511,21 +482,20 @@ function Product() {
       {/* Navigator (( Mobile )) */}
       <div className="bg-white shadow-md px-5 z-10 sticky bottom-0 left-0 w-full h-16 flex lg:hidden items-center justify-between rounded-t-lg">
         <div className="flex items-center justify-between w-full container mx-auto">
-          {cart.map((pro) => pro.id === products[index].id).indexOf(true) !==
-          -1 ? (
+          {cart.map((pro) => pro.id === product.id).indexOf(true) !== -1 ? (
             <button className="bg-orange-500 w-1/2 py-2 rounded-md text-white">
               اضافه شد!
             </button>
           ) : (
             <button
-              onClick={(e) => handleAddToCart_FC(products[index])}
+              onClick={(e) => handleAddToCart_FC(product)}
               className="bg-orange-500 w-1/2 py-2 rounded-md text-white"
             >
               افزودن به سبد
             </button>
           )}
           <span className="text-orange-500 flex justify-center items-center mr-4 font-bold text-xl">
-            <span>{digitsEnToAr(addCommas(products[index].price))} تومان</span>
+            <span>{digitsEnToAr(addCommas(product.price))} تومان</span>
           </span>
         </div>
       </div>

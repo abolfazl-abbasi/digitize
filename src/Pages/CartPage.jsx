@@ -43,11 +43,11 @@ const Cart = () => {
       <Layout title={"سبد خرید"}>
         {cart.length > 0 ? (
           <section className="flex flex-col md:flex-row items-start my-5 container mx-auto px-5 md:px-0 gap-y-6 w-fit md:gap-x-4 md:w-full min-h-screen">
-            <section className="flex flex-col items-center gap-y-3 md:w-full">
+            <section className="flex flex-col items-center gap-y-1 md:w-full">
               {cart.map((product) => (
                 <div
                   key={product.id + Math.random()}
-                  className="flex items-center justify-between bg-white rounded-lg py-2 px-3 w-full"
+                  className="flex items-center justify-between bg-white rounded-lg py-2 px-3 w-full mb-3"
                 >
                   <div className="flex items-center">
                     <div className="w-1/4 sm:w-1/5">
@@ -159,7 +159,7 @@ const Cart = () => {
             </section>
           </section>
         ) : (
-          <h1 className="w-full text-center text-red-500 text-xl mt-4 min-h-[40vh]">
+          <h1 className="w-full text-center text-red-500 text-xl mt-4 min-h-[50vh]">
             سبد خالی است!
           </h1>
         )}
