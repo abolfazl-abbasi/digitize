@@ -42,15 +42,6 @@ const HeaderDesktop = ({ onSearch }) => {
                 </li>
                 <li
                   className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
-                    window.location.pathname === "/categories"
-                      ? "font-bold"
-                      : "text-gray-400 hover:text-gray-600"
-                  }`}
-                >
-                  <Link to={{ pathname: "/categories" }}>دسته بندی ها</Link>
-                </li>
-                <li
-                  className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
                     window.location.pathname === "/cart"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
