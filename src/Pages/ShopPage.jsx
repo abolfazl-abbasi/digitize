@@ -4,11 +4,11 @@ import {
   HiOutlineDesktopComputer,
   HiChevronDown,
   HiOutlineHome,
-  HiOutlineColorSwatch,
+  // HiOutlineColorSwatch,
   HiOutlineCreditCard,
-  HiOutlineRewind,
-  HiOutlineArrowSmLeft,
-  HiOutlineArrowSmRight,
+  // HiOutlineRewind,
+  // HiOutlineArrowSmLeft,
+  // HiOutlineArrowSmRight,
   HiOutlineFilter,
   HiOutlineHeart,
   HiHeart,
@@ -40,27 +40,25 @@ import {
 import { useCart } from "../Providers/CartProvider";
 import Products from "../data/products";
 import _ from "lodash";
-// console.log(Products.map((pro) => pro.id === par.id));
 function ShopPage() {
   //? Providers \\
-  // const products = useProducts();
   const grouping = useGrouping();
   const sort = useSort();
   const priceRange = usePriceRange();
   const productsShow = useProductsShow();
   const cart = useCart();
-  // const { handleAddToCart_FC } = useCartDispatcher();
 
   //? Dispatchers \\
   const { handleLike, handleSetColor } = useProductsDispatcher();
-  const { handleGrouping, handlePriceRange, handleSearch, handleSort } =
-    useSaGDispatcher();
-
-  // useEffect(() => {
-  //   handleGrouping();
-  //   // handlePriceRange();
-  //   handleSort();
-  // }, []);
+  const {
+    handleGrouping,
+    handlePriceRange,
+    handleSearch,
+    handleSort,
+    handleFilterBrand,
+    // handleFilterColor,
+    handleCancelAllFilters,
+  } = useSaGDispatcher();
 
   //? React Router DOM \\
   const loc = useLocation();
@@ -82,6 +80,19 @@ function ShopPage() {
       });
     }
   };
+
+  const handleShow = (id = "") => {
+    const target = document.getElementById(id);
+    const filters = document.getElementById("filters");
+    const sorts = document.getElementById("sorts");
+    filters.classList.add("hidden");
+    sorts.classList.add("hidden");
+    if (id !== "") {
+      target.classList.remove("hidden");
+      target.classList.add("flex");
+    }
+  };
+
   //! Local Handlers \\
 
   return (
@@ -91,13 +102,19 @@ function ShopPage() {
         <div className="container px-5 mx-auto">
           <div className="my-5 md:hidden">
             <div className="flex items-center">
-              <div className="flex items-center w-1/2 rounded-md whitespace-nowrap shadow bg-white px-3 py-2 ml-1 text-sm">
+              <div
+                className="flex items-center w-1/2 rounded-md whitespace-nowrap shadow bg-white px-3 py-2 ml-1 text-sm"
+                onClick={() => handleShow("sorts")}
+              >
                 <HiOutlineSortDescending className="h-5 w-5 ml-3 stroke-gray-400" />
                 محبوب ترین
               </div>
-              <div className="flex items-center w-1/2 rounded-md shadow bg-white px-3 py-2 mr-1 text-sm">
+              <div
+                className="flex items-center w-1/2 rounded-md shadow bg-white px-3 py-2 mr-1 text-sm"
+                onClick={() => handleShow("filters")}
+              >
                 <HiOutlineFilter className="h-5 w-5 ml-3 stroke-gray-400" />
-                <span>برند اپل </span>
+                فیلتر
               </div>
             </div>
           </div>
@@ -187,6 +204,9 @@ function ShopPage() {
                     >
                       <li className="w-full flex items-center hover:bg-gray-50 py-1">
                         <input
+                          onChange={(e) =>
+                            handleFilterBrand(e.target.checked, "apple")
+                          }
                           type="checkbox"
                           className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
                           id="apple"
@@ -197,6 +217,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center hover:bg-gray-50 py-1">
                         <input
+                          onChange={(e) =>
+                            handleFilterBrand(e.target.checked, "samsong")
+                          }
                           type="checkbox"
                           className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
                           id="samsung"
@@ -210,6 +233,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center hover:bg-gray-50 py-1">
                         <input
+                          onChange={(e) =>
+                            handleFilterBrand(e.target.checked, "xiaomi")
+                          }
                           type="checkbox"
                           className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
                           id="xiaomi"
@@ -220,6 +246,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center hover:bg-gray-50 py-1">
                         <input
+                          onChange={(e) =>
+                            handleFilterBrand(e.target.checked, "sony")
+                          }
                           type="checkbox"
                           className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
                           id="sony"
@@ -232,7 +261,7 @@ function ShopPage() {
                   </li>
 
                   {/* Colors */}
-                  <li>
+                  {/* <li>
                     <div
                       onClick={(e) => handleAccr(e)}
                       className={`flex cursor-pointer mb-2 select-none`}
@@ -252,6 +281,9 @@ function ShopPage() {
                     >
                       <li className="w-full flex items-center py-1 hover:bg-gray-50">
                         <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "black")
+                          }
                           type="checkbox"
                           name="color"
                           id="black"
@@ -266,6 +298,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center py-1 hover:bg-gray-50">
                         <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "blue")
+                          }
                           type="checkbox"
                           name="color"
                           id="blue"
@@ -280,6 +315,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center py-1 hover:bg-gray-50">
                         <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "red")
+                          }
                           type="checkbox"
                           name="color"
                           id="red"
@@ -295,6 +333,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center py-1 hover:bg-gray-50">
                         <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "purple")
+                          }
                           type="checkbox"
                           name="color"
                           id="purple"
@@ -309,6 +350,9 @@ function ShopPage() {
                       </li>
                       <li className="w-full flex items-center py-1 hover:bg-gray-50">
                         <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "pink")
+                          }
                           type="checkbox"
                           name="color"
                           id="pink"
@@ -322,7 +366,7 @@ function ShopPage() {
                         </label>
                       </li>
                     </ul>
-                  </li>
+                  </li> */}
 
                   {/* Price Range */}
                   <li>
@@ -536,7 +580,7 @@ function ShopPage() {
             </div>
 
             {/* Pagination */}
-            <div className="w-full flex items-center justify-center my-8">
+            {/* <div className="w-full flex items-center justify-center my-8">
               <ul className="flex items-center justify-center">
                 <li className="py-1 px-2 hover:bg-orange-500 transition-[background-color] hover:text-white cursor-pointer rounded">
                   <HiOutlineRewind className="rotate-180" />
@@ -566,7 +610,7 @@ function ShopPage() {
                   <HiOutlineRewind />
                 </li>
               </ul>
-            </div>
+            </div> */}
           </section>
         </div>
       </Layout>
@@ -611,6 +655,450 @@ function ShopPage() {
               <HiHeart className="h-10 w-10 pl-2 fill-red-500" />
             )}
           </Link>
+        </div>
+      </div>
+
+      {/* filter and Grouping (( Mobile )) */}
+      <div
+        className="bg-[#ffffff84] h-screen fixed bottom-0 md:hidden w-full z-[999] hidden"
+        id="filters"
+      >
+        <div
+          className="shadow-2xl rounded-t-[30px] w-full bottom-0 h-full absolute px-5 py-3 overflow-auto flex flex-col justify-between"
+          onClick={handleShow}
+        ></div>
+        <div className="bg-white shadow-2xl rounded-t-[30px] w-full bottom-0 h-[70vh] absolute px-5 py-3 overflow-auto flex flex-col justify-between">
+          <div>
+            <div className="col-span-3 xl:col-span-2 row-span-2">
+              <div className="bg-white min-h-[300px] max-h-[700px] rounded-xl">
+                {/* Grouping */}
+                <div className="flex flex-col">
+                  <h3 className="text-orange-500 font-bold mb-3 text-lg">
+                    دسته بندی
+                  </h3>
+                  <ul>
+                    <li
+                      onClick={(e) => handleGrouping("smartPhone", loc)}
+                      name="smartPhone"
+                      className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                        grouping === "smartPhone"
+                          ? "bg-gray-100"
+                          : "opacity-40 hover:bg-gray-200"
+                      }`}
+                    >
+                      <div className="w-4 h-4 rounded-full bg-gray-300 ">
+                        <HiOutlineDeviceMobile className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      </div>
+                      <p className="mr-3">تلفن همراه</p>
+                    </li>
+                    <li
+                      onClick={(e) => handleGrouping("laptop", loc)}
+                      className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                        grouping === "laptop"
+                          ? "bg-gray-100"
+                          : "opacity-40 hover:bg-gray-200"
+                      }`}
+                      name="laptop"
+                    >
+                      <div className="w-4 h-4 rounded-full bg-gray-300">
+                        <HiOutlineDesktopComputer className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      </div>
+                      <p className="mr-3">لپ تاپ</p>
+                    </li>
+                    <li
+                      onClick={(e) => handleGrouping("smartWatch", loc)}
+                      className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                        grouping === "smartWatch"
+                          ? "bg-gray-100"
+                          : "opacity-40 hover:bg-gray-200"
+                      }`}
+                      name="smartWatch"
+                    >
+                      <div className="w-4 h-4 rounded-full bg-gray-300">
+                        <HiOutlineDesktopComputer className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      </div>
+                      <p className="mr-3">ساعت هوشمند</p>
+                    </li>
+                  </ul>
+                  <hr />
+                </div>
+
+                {/* Filter */}
+                <div className="flex flex-col">
+                  <h3 className="text-orange-500 font-bold mb-3 text-lg">
+                    فیلتر
+                  </h3>
+                  <ul>
+                    {/* Brands */}
+                    <li>
+                      <div
+                        onClick={(e) => handleAccr(e)}
+                        name="grouping_"
+                        className={`flex cursor-pointer mb-2 select-none`}
+                      >
+                        <div className="w-4 h-4 rounded-full bg-gray-300 ">
+                          <HiOutlineHome className="w-4 h-4 mr-[5px] mt-[5px]" />
+                        </div>
+                        <div className="flex items-center justify-between w-full">
+                          <p className="mr-3">برند محصول</p>
+                          <HiChevronDown />
+                        </div>
+                      </div>
+                      <ul
+                        className="mb-4 mx-1 bg-gray-100 p-1 rounded-md"
+                        id="grouping_"
+                      >
+                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                          <input
+                            onChange={(e) =>
+                              handleFilterBrand(e.target.checked, "apple")
+                            }
+                            type="checkbox"
+                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            id="apple_"
+                          />
+                          <label
+                            className="pr-2 w-full text-sm"
+                            htmlFor="apple_"
+                          >
+                            اپل
+                          </label>
+                        </li>
+                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                          <input
+                            onChange={(e) =>
+                              handleFilterBrand(e.target.checked, "samsong")
+                            }
+                            type="checkbox"
+                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            id="samsung_"
+                          />
+                          <label
+                            className="pr-2 w-full text-sm"
+                            htmlFor="samsung_"
+                          >
+                            سامسونگ
+                          </label>
+                        </li>
+                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                          <input
+                            onChange={(e) =>
+                              handleFilterBrand(e.target.checked, "xiaomi")
+                            }
+                            type="checkbox"
+                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            id="xiaomi_"
+                          />
+                          <label
+                            className="pr-2 w-full text-sm"
+                            htmlFor="xiaomi_"
+                          >
+                            شیاِیَومی
+                          </label>
+                        </li>
+                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                          <input
+                            onChange={(e) =>
+                              handleFilterBrand(e.target.checked, "sony")
+                            }
+                            type="checkbox"
+                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            id="sony_"
+                          />
+                          <label
+                            className="pr-2 w-full text-sm"
+                            htmlFor="sony_"
+                          >
+                            سونی
+                          </label>
+                        </li>
+                      </ul>
+                    </li>
+
+                    {/* Colors */}
+                    {/* <li>
+                    <div
+                      onClick={(e) => handleAccr(e)}
+                      className={`flex cursor-pointer mb-2 select-none`}
+                      name="colors_"
+                    >
+                      <div className="w-4 h-4 rounded-full bg-gray-300">
+                        <HiOutlineColorSwatch className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      </div>
+                      <div className="flex items-center justify-between w-full">
+                        <p className="mr-3">رنگ محصول</p>
+                        <HiChevronDown />
+                      </div>
+                    </div>
+                    <ul
+                      className="mb-4 mx-1 bg-gray-100 p-1 rounded-md"
+                      id="colors_"
+                    >
+                      <li className="w-full flex items-center py-1 hover:bg-gray-50">
+                        <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "black")
+                          }
+                          type="checkbox"
+                          name="color"
+                          id="black"
+                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                        />
+                        <label
+                          className="pr-2 w-full text-sm cursor-pointer"
+                          htmlFor="black"
+                        >
+                          مشکی
+                        </label>
+                      </li>
+                      <li className="w-full flex items-center py-1 hover:bg-gray-50">
+                        <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "blue")
+                          }
+                          type="checkbox"
+                          name="color"
+                          id="blue"
+                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                        />
+                        <label
+                          className="pr-2 w-full text-sm cursor-pointer"
+                          htmlFor="blue"
+                        >
+                          آبی
+                        </label>
+                      </li>
+                      <li className="w-full flex items-center py-1 hover:bg-gray-50">
+                        <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "red")
+                          }
+                          type="checkbox"
+                          name="color"
+                          id="red"
+                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500 "
+                        />
+                        <label
+                          className="pr-2 w-full text-sm cursor-pointer"
+                          htmlFor="red"
+                        >
+                          قرمز
+                        </label>
+                      </li>
+                      <li className="w-full flex items-center py-1 hover:bg-gray-50">
+                        <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "purple")
+                          }
+                          type="checkbox"
+                          name="color"
+                          id="purple"
+                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                        />
+                        <label
+                          className="pr-2 w-full text-sm cursor-pointer"
+                          htmlFor="purple"
+                        >
+                          بنفش
+                        </label>
+                      </li>
+                      <li className="w-full flex items-center py-1 hover:bg-gray-50">
+                        <input
+                          onClick={(e) =>
+                            handleFilterColor(e.target.checked, "pink")
+                          }
+                          type="checkbox"
+                          name="color"
+                          id="pink"
+                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                        />
+                        <label
+                          className="pr-2 w-full text-sm cursor-pointer"
+                          htmlFor="pink"
+                        >
+                          صورتی
+                        </label>
+                      </li>
+                    </ul>
+                  </li> */}
+
+                    {/* Price Range */}
+                    <li>
+                      <div
+                        onClick={(e) => handleAccr(e)}
+                        className={`flex cursor-pointer mb-2 select-none`}
+                        name="priceRange_"
+                      >
+                        <div className="w-4 h-4 rounded-full bg-gray-300">
+                          <HiOutlineCreditCard className="w-4 h-4 mr-[5px] mt-[5px]" />
+                        </div>
+                        <div className="flex items-center justify-between w-full">
+                          <p className="mr-3">قیمت محصول</p>
+                          <HiChevronDown />
+                        </div>
+                      </div>
+                      <ul
+                        className="bg-gray-100 rounded-md p-2"
+                        id="priceRange_"
+                      >
+                        <li className="w-full flex py-1">
+                          <label className="flex flex-col w-full">
+                            <input
+                              type="range"
+                              value={priceRange}
+                              min={
+                                _.minBy(Products, function (pro) {
+                                  return pro.price;
+                                }).price
+                              }
+                              max={
+                                _.maxBy(Products, function (pro) {
+                                  return pro.price;
+                                }).price
+                              }
+                              onChange={(e) => handlePriceRange(e)}
+                              name="priceRange"
+                              id="black"
+                              className="w-full caret-orange-500 appearance-none h-[5px] my-2 rounded-md bg-orange-400 PriceRange"
+                            />
+                            <div className="flex items-center justify-between text-xs">
+                              <span>
+                                {digitsEnToAr(
+                                  addCommas(
+                                    _.minBy(Products, function (pro) {
+                                      return pro.price;
+                                    }).price
+                                  )
+                                )}
+                              </span>
+                              <span>
+                                {digitsEnToAr(
+                                  addCommas(
+                                    _.maxBy(Products, function (pro) {
+                                      return pro.price;
+                                    }).price
+                                  )
+                                )}
+                              </span>
+                            </div>
+                          </label>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="w-full flex items-center mt-4">
+            <button
+              className="h-12 w-1/2 ml-2 bg-orange-500 rounded text-white text-lg font-bold"
+              onClick={handleShow}
+            >
+              تایید
+            </button>
+            <button
+              className="h-12 w-1/2 mr-2 bg-orange-100 rounded border-2 border-orange-500 text-orange-500 text-lg font-bold"
+              onClick={handleCancelAllFilters}
+            >
+              لغو همه
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Sort (( Mobile )) */}
+      <div
+        className="bg-[#ffffff84] h-screen fixed bottom-0 md:hidden w-full z-[999] hidden"
+        id="sorts"
+      >
+        <div
+          className="shadow-2xl rounded-t-[30px] w-full bottom-0 h-full absolute px-5 py-3 overflow-auto flex flex-col justify-between"
+          onClick={handleShow}
+        ></div>
+        <div className="bg-white shadow-2xl rounded-t-[30px] w-full bottom-0 h-[32vh] absolute px-5 py-3 overflow-auto flex flex-col justify-between">
+          <div className="bg-white col-span-9 xl:col-span-10 px-2 rounded-md">
+            <div className="flex flex-col gap-y-3 items-center h-full">
+              <button
+                onClick={(e) => handleSort(["rate", "asc"])}
+                name="rate"
+                className={`px-2 py-1 mx-2 relative ${
+                  sort[0] === "rate" ? "" : "text-gray-400"
+                }`}
+              >
+                محبوب ترین
+                <span
+                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                    sort[0] === "rate" ? "block" : "hidden"
+                  }`}
+                ></span>
+              </button>
+              <button
+                onClick={(e) => handleSort(["numOfVisits", "asc"])}
+                name="numOfVisits"
+                className={`px-2 py-1 mx-2 relative ${
+                  sort[0] === "numOfVisits" ? "" : "text-gray-400"
+                }`}
+              >
+                پربازدید ترین
+                <span
+                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                    sort[0] === "numOfVisits" ? "block" : "hidden"
+                  }`}
+                ></span>
+              </button>
+              <button
+                onClick={(e) => handleSort(["price", "desc"])}
+                name="price"
+                className={`px-2 py-1 mx-2 relative ${
+                  sort[0] === "price" && sort[1] === "desc"
+                    ? ""
+                    : "text-gray-400"
+                }`}
+              >
+                گران ترین
+                <span
+                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                    sort[0] === "price" && sort[1] === "desc"
+                      ? "block"
+                      : "hidden"
+                  }`}
+                ></span>
+              </button>
+              <button
+                onClick={(e) => handleSort(["price", "asc"])}
+                name="price"
+                className={`px-2 py-1 mx-2 relative ${
+                  sort[0] === "price" && sort[1] === "asc"
+                    ? ""
+                    : "text-gray-400"
+                }`}
+              >
+                ارزان ترین
+                <span
+                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                    sort[0] === "price" && sort[1] === "asc"
+                      ? "block"
+                      : "hidden"
+                  }`}
+                ></span>
+              </button>
+            </div>
+          </div>
+          <div className="w-full flex items-center mt-4">
+            <button
+              className="h-12 w-1/2 ml-2 bg-orange-500 rounded text-white text-lg font-bold"
+              onClick={handleShow}
+            >
+              تایید
+            </button>
+            <button
+              className="h-12 w-1/2 mr-2 bg-orange-100 rounded border-2 border-orange-500 text-orange-500 text-lg font-bold"
+              onClick={handleCancelAllFilters}
+            >
+              لغو همه
+            </button>
+          </div>
         </div>
       </div>
     </>

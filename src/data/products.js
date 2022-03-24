@@ -2,12 +2,12 @@ const Products = [
   {
     id: 1,
     category: "smartWatch",
-    brandEn: "Apple",
+    brandEn: "samsong",
     brandFa: "اپل",
     titleEn: "Apple iphone 13 pro max",
     titleFa: "آیفون 13 pro max",
     price: 52_800_000,
-    color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
+    color: ["red-400"],
     activeColor: "",
     mainImage: require("./../assets/img/Home/1.png"),
     images: [

@@ -1,3 +1,4 @@
+/* eslint-disable no-const-assign */
 import { wordsToNumber } from "@persian-tools/persian-tools";
 import _ from "lodash";
 import React, { useState, createContext, useContext } from "react";
@@ -18,11 +19,17 @@ export const SortContext = createContext();
 export const SortContextProvider = createContext();
 export const PriceRangeContext = createContext();
 export const PriceRangeContextProvider = createContext();
+export const FilterBrandContext = createContext();
+export const FilterBrandContextProvider = createContext();
+export const FilterColorContext = createContext();
+export const FilterColorContextProvider = createContext();
 
 const SortAndGroupingProvider = ({ children }) => {
   const [sort, setSort] = useState([]);
   const [grouping, setGrouping] = useState("");
   const [priceRange, setPriceRange] = useState();
+  const [filterBrand, setFilterBrand] = useState([]);
+  const [filterColor, setFilterColor] = useState([]);
 
   return (
     <>
@@ -32,7 +39,17 @@ const SortAndGroupingProvider = ({ children }) => {
             <SortContextProvider.Provider value={setSort}>
               <PriceRangeContext.Provider value={priceRange}>
                 <PriceRangeContextProvider.Provider value={setPriceRange}>
-                  {children}
+                  <FilterBrandContext.Provider value={filterBrand}>
+                    <FilterBrandContextProvider.Provider value={setFilterBrand}>
+                      <FilterColorContext.Provider value={filterColor}>
+                        <FilterColorContextProvider.Provider
+                          value={setFilterColor}
+                        >
+                          {children}
+                        </FilterColorContextProvider.Provider>
+                      </FilterColorContext.Provider>
+                    </FilterBrandContextProvider.Provider>
+                  </FilterBrandContext.Provider>
                 </PriceRangeContextProvider.Provider>
               </PriceRangeContext.Provider>
             </SortContextProvider.Provider>
@@ -46,6 +63,8 @@ const SortAndGroupingProvider = ({ children }) => {
 export const useGrouping = () => useContext(GroupingContext);
 export const useSort = () => useContext(SortContext);
 export const usePriceRange = () => useContext(PriceRangeContext);
+export const useFilterBrand = () => useContext(FilterBrandContext);
+export const useFilterColor = () => useContext(FilterColorContext);
 
 export const useSaGDispatcher = () => {
   //? React Router DOM \\
@@ -61,10 +80,14 @@ export const useSaGDispatcher = () => {
   const sort = useSort();
   const priceRange = usePriceRange();
   const productsShow = useProductsShow();
+  // const filterBrand = useFilterBrand();
+  const filterColor = useFilterColor();
   const setGrouping = useContext(GroupingContextProvider);
   const setSort = useContext(SortContextProvider);
   const setPriceRange = useContext(PriceRangeContextProvider);
   const setProductsShow = useContext(ProductsShowContextProvider);
+  const setFilterBrand = useContext(FilterBrandContextProvider);
+  const setFilterColor = useContext(FilterColorContextProvider);
 
   // useEffect(() => {
   //   handleSort(sort);
@@ -79,7 +102,6 @@ export const useSaGDispatcher = () => {
       his.push("/");
     }
     setProductsShow(_.filter(products, ["category", name]));
-    console.log(products);
   };
 
   const handleSort = (e) => {
@@ -121,6 +143,77 @@ export const useSaGDispatcher = () => {
       )
     );
   };
+
+  const handleFilterBrand = (e, brand) => {
+    var name = [];
+    if (e) {
+      setFilterBrand([...filterColor, brand]);
+      name = [...filterColor, brand];
+    }
+
+    if (brand !== Array) {
+      if (!e) {
+        setFilterBrand(filterColor.filter((filBrand) => filBrand !== brand));
+        name = filterColor.filter((filBrand) => filBrand !== brand);
+      }
+
+      console.log(name.length);
+
+      if (name.length !== 0) {
+        setProductsShow([]);
+
+        let arrays = name.map((brand) =>
+          productsShow.filter(
+            (pro) => pro.brandEn.toLowerCase() === brand.toLowerCase()
+          )
+        );
+        setProductsShow([].concat.apply([], arrays));
+      }
+    }
+
+    if (name.length === 0) {
+      setProductsShow([...products]);
+      setGrouping("");
+    }
+  };
+
+  const handleFilterColor = (e, color) => {
+    var name = [];
+    if (e) {
+      setFilterColor([...filterColor, color]);
+      name = [...filterColor, color];
+    }
+
+    if (!e) {
+      setFilterColor(filterColor.filter((filColor) => filColor !== color));
+      name = filterColor.filter((filColor) => filColor !== color);
+    }
+
+    if (name.length !== 0) {
+      setProductsShow([]);
+
+      let arrays = name.map((color) =>
+        productsShow.filter((pro) => pro.color.indexOf(color) !== -1)
+      );
+
+      setProductsShow([].concat.apply([], arrays));
+    }
+
+    if (name.length === 0) {
+      setProductsShow([...products]);
+      setGrouping("");
+    }
+  };
+
+  const handleCancelAllFilters = () => {
+    setSort([]);
+    setGrouping("");
+    setPriceRange();
+    setFilterBrand([]);
+    setFilterColor([]);
+    setProductsShow([...products]);
+  };
+
   //! Handlers \\
 
   //? returned handlers for use \\
@@ -135,6 +228,9 @@ export const useSaGDispatcher = () => {
     handleGrouping,
     handleSort,
     handlePriceRange,
+    handleFilterBrand,
+    handleFilterColor,
+    handleCancelAllFilters,
   };
 };
 
