@@ -1,4 +1,9 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useTransition,
+} from "react";
 
 const CartContext = createContext();
 const CartContextProvider = createContext();
@@ -8,8 +13,11 @@ const DiscountResContext = createContext();
 const DiscountResContextProvider = createContext();
 const TotalPriceContext = createContext();
 const TotalPriceContextProvider = createContext();
+const StartTransition = createContext();
+const Pending = createContext();
 
 const CartProvider = ({ children }) => {
+  const [pending, startTransition] = useTransition();
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
@@ -23,19 +31,27 @@ const CartProvider = ({ children }) => {
     <>
       <CartContext.Provider value={cart}>
         <CartContextProvider.Provider value={setCart}>
-          <TotalPriceContext.Provider value={totalPrice}>
-            <TotalPriceContextProvider.Provider value={setTotalPrice}>
-              <DiscountCodeContext.Provider value={discountCode}>
-                <DiscountCodeContextProvider.Provider value={setDiscountCode}>
-                  <DiscountResContext.Provider value={discountRes}>
-                    <DiscountResContextProvider.Provider value={setDiscountRes}>
-                      {children}
-                    </DiscountResContextProvider.Provider>
-                  </DiscountResContext.Provider>
-                </DiscountCodeContextProvider.Provider>
-              </DiscountCodeContext.Provider>
-            </TotalPriceContextProvider.Provider>
-          </TotalPriceContext.Provider>
+          <StartTransition.Provider value={startTransition}>
+            <Pending.Provider value={pending}>
+              <TotalPriceContext.Provider value={totalPrice}>
+                <TotalPriceContextProvider.Provider value={setTotalPrice}>
+                  <DiscountCodeContext.Provider value={discountCode}>
+                    <DiscountCodeContextProvider.Provider
+                      value={setDiscountCode}
+                    >
+                      <DiscountResContext.Provider value={discountRes}>
+                        <DiscountResContextProvider.Provider
+                          value={setDiscountRes}
+                        >
+                          {children}
+                        </DiscountResContextProvider.Provider>
+                      </DiscountResContext.Provider>
+                    </DiscountCodeContextProvider.Provider>
+                  </DiscountCodeContext.Provider>
+                </TotalPriceContextProvider.Provider>
+              </TotalPriceContext.Provider>
+            </Pending.Provider>
+          </StartTransition.Provider>
         </CartContextProvider.Provider>
       </CartContext.Provider>
     </>
@@ -46,6 +62,8 @@ export const useCart = () => useContext(CartContext);
 export const useDiscountCode = () => useContext(DiscountCodeContext);
 export const useDiscountRes = () => useContext(DiscountResContext);
 export const useTotalPrice = () => useContext(TotalPriceContext);
+export const useStartTransition = () => useContext(StartTransition);
+export const usePending = () => useContext(Pending);
 
 export const useCartDispatcher = () => {
   const cart = useCart();
@@ -61,7 +79,6 @@ export const useCartDispatcher = () => {
       return;
     }
     setCart([...cart, { ...product, numInCart: 1 }]);
-    console.log(totalPrice, product.price);
     setTotalPrice(totalPrice + product.price);
   };
 
@@ -92,10 +109,20 @@ export const useCartDispatcher = () => {
   };
 
   const handleDiscountCode_FC = (e) => {
+    setDiscountRes({
+      boolean: false,
+      response: "",
+      discount: 0,
+    });
     setDiscountCode(e.target.value);
   };
 
   const handleDiscount_FC = (e) => {
+    setDiscountRes({
+      boolean: false,
+      response: "",
+      discount: 0,
+    });
     if (discountCode === "abc123") {
       setDiscountRes({
         boolean: true,

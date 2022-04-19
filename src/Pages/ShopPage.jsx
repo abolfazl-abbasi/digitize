@@ -12,11 +12,6 @@ import {
   HiOutlineFilter,
   HiOutlineHeart,
   HiHeart,
-  HiShoppingCart,
-  HiHome,
-  HiOutlineViewGrid,
-  HiOutlineShoppingCart,
-  HiViewGrid,
 } from "react-icons/hi";
 import React from "react";
 import "./../App/App.css";
@@ -37,19 +32,21 @@ import {
   useSaGDispatcher,
   useSort,
 } from "./../Providers/Sort&Grouping";
-import { useCart } from "../Providers/CartProvider";
+import { usePending } from "../Providers/CartProvider";
 import Products from "../data/products";
 import _ from "lodash";
+import NavigatorMobile from "../components/NavigatorMobile";
 function ShopPage() {
   //? Providers \\
   const grouping = useGrouping();
   const sort = useSort();
   const priceRange = usePriceRange();
   const productsShow = useProductsShow();
-  const cart = useCart();
+  // const cart = useCart();
+  const pending = usePending();
 
   //? Dispatchers \\
-  const { handleLike, handleSetColor } = useProductsDispatcher();
+  const { handleLike } = useProductsDispatcher();
   const {
     handleGrouping,
     handlePriceRange,
@@ -68,7 +65,6 @@ function ShopPage() {
     const items = document.querySelector(
       `#${e.currentTarget.attributes.name.value}`
     );
-
     if (items.classList.value.includes("hidden")) {
       e.currentTarget.addEventListener("click", () => {
         items.classList.remove("hidden");
@@ -99,21 +95,21 @@ function ShopPage() {
     <>
       <Layout onSearch={handleSearch} title={"فروشگاه"}>
         {/* Filter and Sort mobile section (( Mobile )) */}
-        <div className="container px-5 mx-auto">
+        <div className="container mx-auto px-5">
           <div className="my-5 md:hidden">
             <div className="flex items-center">
               <div
-                className="flex items-center w-1/2 rounded-md whitespace-nowrap shadow bg-white px-3 py-2 ml-1 text-sm"
+                className="ml-1 flex w-1/2 items-center whitespace-nowrap rounded-md bg-white px-3 py-2 text-sm shadow"
                 onClick={() => handleShow("sorts")}
               >
-                <HiOutlineSortDescending className="h-5 w-5 ml-3 stroke-gray-400" />
+                <HiOutlineSortDescending className="ml-3 h-5 w-5 stroke-gray-400" />
                 محبوب ترین
               </div>
               <div
-                className="flex items-center w-1/2 rounded-md shadow bg-white px-3 py-2 mr-1 text-sm"
+                className="mr-1 flex w-1/2 items-center rounded-md bg-white px-3 py-2 text-sm shadow"
                 onClick={() => handleShow("filters")}
               >
-                <HiOutlineFilter className="h-5 w-5 ml-3 stroke-gray-400" />
+                <HiOutlineFilter className="ml-3 h-5 w-5 stroke-gray-400" />
                 فیلتر
               </div>
             </div>
@@ -121,55 +117,55 @@ function ShopPage() {
         </div>
 
         {/* section (( Desktop && Mobile )) */}
-        <div className="grid grid-cols-12 grid-rows-[55px_minmax(500px,_1fr)] md:gap-6 container mx-auto">
+        <div className="container mx-auto grid grid-cols-12 grid-rows-[55px_minmax(500px,_1fr)] md:gap-6">
           {/* app bar (( Desktop )) */}
-          <div className="hidden md:block col-span-3 xl:col-span-2 row-span-2">
-            <div className="bg-white py-5 min-h-[300px] max-h-[700px] rounded-xl shadow-md p-4">
+          <div className="col-span-3 row-span-2 hidden md:block xl:col-span-2">
+            <div className="sticky top-24 mb-16 max-h-[700px] min-h-[300px] rounded-xl bg-white p-4 py-5 shadow-md">
               {/* Grouping */}
               <div className="flex flex-col">
-                <h3 className="text-orange-500 font-bold mb-3 text-lg">
+                <h3 className="mb-3 text-lg font-bold text-orange-500">
                   دسته بندی
                 </h3>
                 <ul>
                   <li
                     onClick={(e) => handleGrouping("smartPhone", loc)}
                     name="smartPhone"
-                    className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                    className={`mb-1 flex cursor-pointer rounded-md py-1 px-2  ${
                       grouping === "smartPhone"
                         ? "bg-gray-100"
                         : "opacity-40 hover:bg-gray-200"
                     }`}
                   >
-                    <div className="w-4 h-4 rounded-full bg-gray-300 ">
-                      <HiOutlineDeviceMobile className="w-4 h-4 mr-[5px] mt-[5px]" />
+                    <div className="h-4 w-4 rounded-full bg-gray-300 ">
+                      <HiOutlineDeviceMobile className="mr-[5px] mt-[5px] h-4 w-4" />
                     </div>
                     <p className="mr-3">تلفن همراه</p>
                   </li>
                   <li
                     onClick={(e) => handleGrouping("laptop", loc)}
-                    className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                    className={`mb-1 flex cursor-pointer rounded-md py-1 px-2  ${
                       grouping === "laptop"
                         ? "bg-gray-100"
                         : "opacity-40 hover:bg-gray-200"
                     }`}
                     name="laptop"
                   >
-                    <div className="w-4 h-4 rounded-full bg-gray-300">
-                      <HiOutlineDesktopComputer className="w-4 h-4 mr-[5px] mt-[5px]" />
+                    <div className="h-4 w-4 rounded-full bg-gray-300">
+                      <HiOutlineDesktopComputer className="mr-[5px] mt-[5px] h-4 w-4" />
                     </div>
                     <p className="mr-3">لپ تاپ</p>
                   </li>
                   <li
                     onClick={(e) => handleGrouping("smartWatch", loc)}
-                    className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                    className={`mb-1 flex cursor-pointer rounded-md py-1 px-2  ${
                       grouping === "smartWatch"
                         ? "bg-gray-100"
                         : "opacity-40 hover:bg-gray-200"
                     }`}
                     name="smartWatch"
                   >
-                    <div className="w-4 h-4 rounded-full bg-gray-300">
-                      <HiOutlineDesktopComputer className="w-4 h-4 mr-[5px] mt-[5px]" />
+                    <div className="h-4 w-4 rounded-full bg-gray-300">
+                      <HiOutlineDesktopComputer className="mr-[5px] mt-[5px] h-4 w-4" />
                     </div>
                     <p className="mr-3">ساعت هوشمند</p>
                   </li>
@@ -179,7 +175,7 @@ function ShopPage() {
 
               {/* Filter */}
               <div className="flex flex-col">
-                <h3 className="text-orange-500 font-bold mb-3 text-lg">
+                <h3 className="mb-3 text-lg font-bold text-orange-500">
                   فیلتر
                 </h3>
                 <ul>
@@ -188,72 +184,72 @@ function ShopPage() {
                     <div
                       onClick={(e) => handleAccr(e)}
                       name="grouping"
-                      className={`flex cursor-pointer mb-2 select-none`}
+                      className={`mb-2 flex cursor-pointer select-none`}
                     >
-                      <div className="w-4 h-4 rounded-full bg-gray-300 ">
-                        <HiOutlineHome className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      <div className="h-4 w-4 rounded-full bg-gray-300 ">
+                        <HiOutlineHome className="mr-[5px] mt-[5px] h-4 w-4" />
                       </div>
-                      <div className="flex items-center justify-between w-full">
+                      <div className="flex w-full items-center justify-between">
                         <p className="mr-3">برند محصول</p>
                         <HiChevronDown />
                       </div>
                     </div>
                     <ul
-                      className="mb-4 mx-1 bg-gray-100 p-1 rounded-md"
+                      className="mx-1 mb-4 rounded-md bg-gray-100 p-1"
                       id="grouping"
                     >
-                      <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                      <li className="flex w-full items-center py-1 hover:bg-gray-50">
                         <input
                           onChange={(e) =>
                             handleFilterBrand(e.target.checked, "apple")
                           }
                           type="checkbox"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                           id="apple"
                         />
-                        <label className="pr-2 w-full text-sm" htmlFor="apple">
+                        <label className="w-full pr-2 text-sm" htmlFor="apple">
                           اپل
                         </label>
                       </li>
-                      <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                      <li className="flex w-full items-center py-1 hover:bg-gray-50">
                         <input
                           onChange={(e) =>
                             handleFilterBrand(e.target.checked, "samsong")
                           }
                           type="checkbox"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                           id="samsung"
                         />
                         <label
-                          className="pr-2 w-full text-sm"
+                          className="w-full pr-2 text-sm"
                           htmlFor="samsung"
                         >
                           سامسونگ
                         </label>
                       </li>
-                      <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                      <li className="flex w-full items-center py-1 hover:bg-gray-50">
                         <input
                           onChange={(e) =>
                             handleFilterBrand(e.target.checked, "xiaomi")
                           }
                           type="checkbox"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                           id="xiaomi"
                         />
-                        <label className="pr-2 w-full text-sm" htmlFor="xiaomi">
+                        <label className="w-full pr-2 text-sm" htmlFor="xiaomi">
                           شیاِیَومی
                         </label>
                       </li>
-                      <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                      <li className="flex w-full items-center py-1 hover:bg-gray-50">
                         <input
                           onChange={(e) =>
                             handleFilterBrand(e.target.checked, "sony")
                           }
                           type="checkbox"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                           id="sony"
                         />
-                        <label className="pr-2 w-full text-sm" htmlFor="sony">
+                        <label className="w-full pr-2 text-sm" htmlFor="sony">
                           سونی
                         </label>
                       </li>
@@ -372,20 +368,20 @@ function ShopPage() {
                   <li>
                     <div
                       onClick={(e) => handleAccr(e)}
-                      className={`flex cursor-pointer mb-2 select-none`}
+                      className={`mb-2 flex cursor-pointer select-none`}
                       name="priceRange"
                     >
-                      <div className="w-4 h-4 rounded-full bg-gray-300">
-                        <HiOutlineCreditCard className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      <div className="h-4 w-4 rounded-full bg-gray-300">
+                        <HiOutlineCreditCard className="mr-[5px] mt-[5px] h-4 w-4" />
                       </div>
-                      <div className="flex items-center justify-between w-full">
+                      <div className="flex w-full items-center justify-between">
                         <p className="mr-3">قیمت محصول</p>
                         <HiChevronDown />
                       </div>
                     </div>
-                    <ul className="bg-gray-100 rounded-md p-2" id="priceRange">
-                      <li className="w-full flex py-1">
-                        <label className="flex flex-col w-full">
+                    <ul className="rounded-md bg-gray-100 p-2" id="priceRange">
+                      <li className="flex w-full py-1">
+                        <label className="flex w-full flex-col">
                           <input
                             type="range"
                             value={priceRange}
@@ -402,7 +398,7 @@ function ShopPage() {
                             onChange={(e) => handlePriceRange(e)}
                             name="priceRange"
                             id="black"
-                            className="w-full caret-orange-500 appearance-none h-[5px] my-2 rounded-md bg-orange-400 PriceRange"
+                            className="PriceRange my-2 h-[5px] w-full appearance-none rounded-md bg-orange-400 caret-orange-500"
                           />
                           <div className="flex items-center justify-between text-xs">
                             <span>
@@ -431,33 +427,24 @@ function ShopPage() {
                 </ul>
               </div>
             </div>
-
-            {/* Ad Bar */}
-            <div className="rounded-xl shadow-md h-44 my-4 flex items-center justify-center bg-orange-500">
-              <img
-                src={require("./../assets/img/Cart/1.png")}
-                alt="iphone 13 pro max"
-                className="w-1/3"
-              />
-            </div>
           </div>
 
           {/* Filter and Sort mobile section (( Desktop )) */}
-          <div className="bg-white hidden md:block col-span-9 xl:col-span-10 px-2 rounded-md">
-            <div className="flex items-center h-full">
-              <div className="bg-orange-200 p-2 rounded-md">
-                <HiOutlineSortDescending className="w-7 h-7 font-light stroke-orange-600" />
+          <div className="col-span-9 hidden rounded-md bg-white px-2 md:block xl:col-span-10">
+            <div className="flex h-full items-center">
+              <div className="rounded-md bg-orange-200 p-2">
+                <HiOutlineSortDescending className="h-7 w-7 stroke-orange-600 font-light" />
               </div>
               <button
                 onClick={(e) => handleSort(["rate", "asc"])}
                 name="rate"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "rate" ? "" : "text-gray-400"
                 }`}
               >
                 محبوب ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 ${
+                  className={`absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "rate" ? "block" : "hidden"
                   }`}
                 ></span>
@@ -465,13 +452,13 @@ function ShopPage() {
               <button
                 onClick={(e) => handleSort(["numOfVisits", "asc"])}
                 name="numOfVisits"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "numOfVisits" ? "" : "text-gray-400"
                 }`}
               >
                 پربازدید ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 ${
+                  className={`absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "numOfVisits" ? "block" : "hidden"
                   }`}
                 ></span>
@@ -479,7 +466,7 @@ function ShopPage() {
               <button
                 onClick={(e) => handleSort(["price", "desc"])}
                 name="price"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "price" && sort[1] === "desc"
                     ? ""
                     : "text-gray-400"
@@ -487,7 +474,7 @@ function ShopPage() {
               >
                 گران ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 ${
+                  className={`absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "price" && sort[1] === "desc"
                       ? "block"
                       : "hidden"
@@ -497,7 +484,7 @@ function ShopPage() {
               <button
                 onClick={(e) => handleSort(["price", "asc"])}
                 name="price"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "price" && sort[1] === "asc"
                     ? ""
                     : "text-gray-400"
@@ -505,7 +492,7 @@ function ShopPage() {
               >
                 ارزان ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 ${
+                  className={`absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "price" && sort[1] === "asc"
                       ? "block"
                       : "hidden"
@@ -516,18 +503,22 @@ function ShopPage() {
           </div>
 
           {/* Products Section (( Desktop && Mobile )) */}
-          <section className="md:px-0 px-5 col-span-12 row-span-full md:row-auto md:col-span-9 xl:col-span-10 mb-16">
-            <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+          <section className="col-span-12 row-span-full mb-16 px-5 md:col-span-9 md:row-auto md:px-0 xl:col-span-10">
+            <div
+              className={`grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 ${
+                pending ? "opacity-30" : ""
+              }`}
+            >
               {/* Product */}
               {productsShow.map((product) => (
                 <section
-                  className="bg-white rounded-lg shadow-md p-1 sm:p-2 block"
+                  className="block rounded-lg bg-white p-1 shadow-md sm:p-2"
                   key={product.id}
                 >
-                  <div className="bg-gray-400 min-h-[140px] rounded-lg relative flex items-center justify-center overflow-hidden">
+                  <div className="relative flex min-h-[140px] items-center justify-center overflow-hidden rounded-lg bg-gray-400">
                     <Link
                       to={{ pathname: `/products/${product.id}` }}
-                      className="flex items-center justify-center w-full"
+                      className="flex w-full items-center justify-center"
                     >
                       <img
                         className="w-3/4"
@@ -536,7 +527,7 @@ function ShopPage() {
                       />
                     </Link>
                     <div
-                      className="bg-[#ffffff42] p-1 inline-flex rounded-full absolute right-2 top-2 cursor-pointer"
+                      className="absolute right-2 top-2 inline-flex cursor-pointer rounded-full bg-[#ffffff42] p-1"
                       onClick={() => handleLike(product)}
                     >
                       {product.liked ? (
@@ -546,15 +537,12 @@ function ShopPage() {
                       )}
                     </div>
                   </div>
-                  <div className="flex flex-col my-2 sm:my-0 p-2">
-                    <div className="my-1 mb-2 text-sm md:text-base flex items-center justify-between">
+                  <div className="my-2 flex flex-col p-2 sm:my-0">
+                    <div className="my-1 mb-2 flex items-center justify-between text-sm md:text-base">
                       <div className="font-bold text-gray-300">
                         {product.brandFa}
                       </div>
-                      <SelectColor
-                        product={product}
-                        onSetColor={handleSetColor}
-                      />
+                      <SelectColor product={product} />
                     </div>
                     <Link to={{ pathname: `/products/${product.id}` }}>
                       <div className="my-1 text-sm md:text-base">
@@ -562,7 +550,7 @@ function ShopPage() {
                       </div>
                     </Link>
 
-                    <div className="mt-2 text-sm md:text-base self-end text-orange-500 font-bold">
+                    <div className="mt-2 self-end text-sm font-bold text-orange-500 md:text-base">
                       {digitsEnToAr(addCommas(product.price))} تومان
                     </div>
                   </div>
@@ -571,7 +559,7 @@ function ShopPage() {
                     to={{ pathname: `/products/${product.id}` }}
                     className=""
                   >
-                    <button className="w-full text-orange-500 p-1 font-bold text-sm sm:text-base">
+                    <button className="w-full p-1 text-sm font-bold text-orange-500 sm:text-base">
                       مشاهده و سفارش
                     </button>
                   </Link>
@@ -616,106 +604,66 @@ function ShopPage() {
       </Layout>
 
       {/* Navigator (( Mobile )) */}
-      <div className="bg-white shadow-2xl px-5 z-50 sticky bottom-0 left-0 w-full h-16 flex md:hidden items-center justify-between rounded-t-lg">
-        <div className="flex items-center justify-between w-full container mx-auto">
-          <Link to={{ pathname: "/" }}>
-            {loc.pathname !== "/" ? (
-              <HiOutlineHome className="h-8 w-8 stroke-gray-400" />
-            ) : (
-              <HiHome className="h-10 w-10 pl-2" />
-            )}
-          </Link>
-          <Link to={{ pathname: "/list" }}>
-            {loc.pathname !== "/list" ? (
-              <HiOutlineViewGrid className="h-8 w-8 stroke-gray-400" />
-            ) : (
-              <HiViewGrid className="h-10 w-10 pl-2" />
-            )}
-          </Link>
-          <Link to={{ pathname: "/cart" }}>
-            {loc.pathname !== "/cart" ? (
-              cart.length !== 0 ? (
-                <div className="relative">
-                  <HiOutlineShoppingCart className="h-8 w-8 stroke-orange-400" />
-                  <span className="w-5 h-5 rounded-full absolute -top-3 -right-3 bg-orange-500 flex items-center justify-center text-sm text-white">
-                    {cart.length}
-                  </span>
-                </div>
-              ) : (
-                <HiOutlineShoppingCart className="h-8 w-8 stroke-gray-400" />
-              )
-            ) : (
-              <HiShoppingCart className="h-10 w-10 pl-2" />
-            )}
-          </Link>
-          <Link to={{ pathname: "/favorite" }}>
-            {loc.pathname !== "/favorite" ? (
-              <HiOutlineHeart className="h-8 w-8 stroke-gray-400" />
-            ) : (
-              <HiHeart className="h-10 w-10 pl-2 fill-red-500" />
-            )}
-          </Link>
-        </div>
-      </div>
+      <NavigatorMobile />
 
       {/* filter and Grouping (( Mobile )) */}
       <div
-        className="bg-[#ffffff84] h-screen fixed bottom-0 md:hidden w-full z-[999] hidden"
+        className="fixed bottom-0 z-[999] hidden h-screen w-full bg-[#ffffff84] md:hidden"
         id="filters"
       >
         <div
-          className="shadow-2xl rounded-t-[30px] w-full bottom-0 h-full absolute px-5 py-3 overflow-auto flex flex-col justify-between"
+          className="absolute bottom-0 flex h-full w-full flex-col justify-between overflow-auto rounded-t-[30px] px-5 py-3 shadow-2xl"
           onClick={handleShow}
         ></div>
-        <div className="bg-white shadow-2xl rounded-t-[30px] w-full bottom-0 h-[70vh] absolute px-5 py-3 overflow-auto flex flex-col justify-between">
+        <div className="absolute bottom-0 flex h-[70vh] w-full flex-col justify-between overflow-auto rounded-t-[30px] bg-white px-5 py-3 shadow-2xl">
           <div>
-            <div className="col-span-3 xl:col-span-2 row-span-2">
-              <div className="bg-white min-h-[300px] max-h-[700px] rounded-xl">
+            <div className="col-span-3 row-span-2 xl:col-span-2">
+              <div className="max-h-[700px] min-h-[300px] rounded-xl bg-white">
                 {/* Grouping */}
                 <div className="flex flex-col">
-                  <h3 className="text-orange-500 font-bold mb-3 text-lg">
+                  <h3 className="mb-3 text-lg font-bold text-orange-500">
                     دسته بندی
                   </h3>
                   <ul>
                     <li
                       onClick={(e) => handleGrouping("smartPhone", loc)}
                       name="smartPhone"
-                      className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                      className={`mb-1 flex cursor-pointer rounded-md py-1 px-2  ${
                         grouping === "smartPhone"
                           ? "bg-gray-100"
                           : "opacity-40 hover:bg-gray-200"
                       }`}
                     >
-                      <div className="w-4 h-4 rounded-full bg-gray-300 ">
-                        <HiOutlineDeviceMobile className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      <div className="h-4 w-4 rounded-full bg-gray-300 ">
+                        <HiOutlineDeviceMobile className="mr-[5px] mt-[5px] h-4 w-4" />
                       </div>
                       <p className="mr-3">تلفن همراه</p>
                     </li>
                     <li
                       onClick={(e) => handleGrouping("laptop", loc)}
-                      className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                      className={`mb-1 flex cursor-pointer rounded-md py-1 px-2  ${
                         grouping === "laptop"
                           ? "bg-gray-100"
                           : "opacity-40 hover:bg-gray-200"
                       }`}
                       name="laptop"
                     >
-                      <div className="w-4 h-4 rounded-full bg-gray-300">
-                        <HiOutlineDesktopComputer className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      <div className="h-4 w-4 rounded-full bg-gray-300">
+                        <HiOutlineDesktopComputer className="mr-[5px] mt-[5px] h-4 w-4" />
                       </div>
                       <p className="mr-3">لپ تاپ</p>
                     </li>
                     <li
                       onClick={(e) => handleGrouping("smartWatch", loc)}
-                      className={`flex cursor-pointer py-1 px-2 rounded-md mb-1  ${
+                      className={`mb-1 flex cursor-pointer rounded-md py-1 px-2  ${
                         grouping === "smartWatch"
                           ? "bg-gray-100"
                           : "opacity-40 hover:bg-gray-200"
                       }`}
                       name="smartWatch"
                     >
-                      <div className="w-4 h-4 rounded-full bg-gray-300">
-                        <HiOutlineDesktopComputer className="w-4 h-4 mr-[5px] mt-[5px]" />
+                      <div className="h-4 w-4 rounded-full bg-gray-300">
+                        <HiOutlineDesktopComputer className="mr-[5px] mt-[5px] h-4 w-4" />
                       </div>
                       <p className="mr-3">ساعت هوشمند</p>
                     </li>
@@ -725,7 +673,7 @@ function ShopPage() {
 
                 {/* Filter */}
                 <div className="flex flex-col">
-                  <h3 className="text-orange-500 font-bold mb-3 text-lg">
+                  <h3 className="mb-3 text-lg font-bold text-orange-500">
                     فیلتر
                   </h3>
                   <ul>
@@ -734,79 +682,79 @@ function ShopPage() {
                       <div
                         onClick={(e) => handleAccr(e)}
                         name="grouping_"
-                        className={`flex cursor-pointer mb-2 select-none`}
+                        className={`mb-2 flex cursor-pointer select-none`}
                       >
-                        <div className="w-4 h-4 rounded-full bg-gray-300 ">
-                          <HiOutlineHome className="w-4 h-4 mr-[5px] mt-[5px]" />
+                        <div className="h-4 w-4 rounded-full bg-gray-300 ">
+                          <HiOutlineHome className="mr-[5px] mt-[5px] h-4 w-4" />
                         </div>
-                        <div className="flex items-center justify-between w-full">
+                        <div className="flex w-full items-center justify-between">
                           <p className="mr-3">برند محصول</p>
                           <HiChevronDown />
                         </div>
                       </div>
                       <ul
-                        className="mb-4 mx-1 bg-gray-100 p-1 rounded-md"
+                        className="mx-1 mb-4 rounded-md bg-gray-100 p-1"
                         id="grouping_"
                       >
-                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                        <li className="flex w-full items-center py-1 hover:bg-gray-50">
                           <input
                             onChange={(e) =>
                               handleFilterBrand(e.target.checked, "apple")
                             }
                             type="checkbox"
-                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                             id="apple_"
                           />
                           <label
-                            className="pr-2 w-full text-sm"
+                            className="w-full pr-2 text-sm"
                             htmlFor="apple_"
                           >
                             اپل
                           </label>
                         </li>
-                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                        <li className="flex w-full items-center py-1 hover:bg-gray-50">
                           <input
                             onChange={(e) =>
                               handleFilterBrand(e.target.checked, "samsong")
                             }
                             type="checkbox"
-                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                             id="samsung_"
                           />
                           <label
-                            className="pr-2 w-full text-sm"
+                            className="w-full pr-2 text-sm"
                             htmlFor="samsung_"
                           >
                             سامسونگ
                           </label>
                         </li>
-                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                        <li className="flex w-full items-center py-1 hover:bg-gray-50">
                           <input
                             onChange={(e) =>
                               handleFilterBrand(e.target.checked, "xiaomi")
                             }
                             type="checkbox"
-                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                             id="xiaomi_"
                           />
                           <label
-                            className="pr-2 w-full text-sm"
+                            className="w-full pr-2 text-sm"
                             htmlFor="xiaomi_"
                           >
                             شیاِیَومی
                           </label>
                         </li>
-                        <li className="w-full flex items-center hover:bg-gray-50 py-1">
+                        <li className="flex w-full items-center py-1 hover:bg-gray-50">
                           <input
                             onChange={(e) =>
                               handleFilterBrand(e.target.checked, "sony")
                             }
                             type="checkbox"
-                            className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                            className="form-checkbox w-4 rounded text-orange-500 focus:ring-orange-500"
                             id="sony_"
                           />
                           <label
-                            className="pr-2 w-full text-sm"
+                            className="w-full pr-2 text-sm"
                             htmlFor="sony_"
                           >
                             سونی
@@ -926,23 +874,23 @@ function ShopPage() {
                     <li>
                       <div
                         onClick={(e) => handleAccr(e)}
-                        className={`flex cursor-pointer mb-2 select-none`}
+                        className={`mb-2 flex cursor-pointer select-none`}
                         name="priceRange_"
                       >
-                        <div className="w-4 h-4 rounded-full bg-gray-300">
-                          <HiOutlineCreditCard className="w-4 h-4 mr-[5px] mt-[5px]" />
+                        <div className="h-4 w-4 rounded-full bg-gray-300">
+                          <HiOutlineCreditCard className="mr-[5px] mt-[5px] h-4 w-4" />
                         </div>
-                        <div className="flex items-center justify-between w-full">
+                        <div className="flex w-full items-center justify-between">
                           <p className="mr-3">قیمت محصول</p>
                           <HiChevronDown />
                         </div>
                       </div>
                       <ul
-                        className="bg-gray-100 rounded-md p-2"
+                        className="rounded-md bg-gray-100 p-2"
                         id="priceRange_"
                       >
-                        <li className="w-full flex py-1">
-                          <label className="flex flex-col w-full">
+                        <li className="flex w-full py-1">
+                          <label className="flex w-full flex-col">
                             <input
                               type="range"
                               value={priceRange}
@@ -959,7 +907,7 @@ function ShopPage() {
                               onChange={(e) => handlePriceRange(e)}
                               name="priceRange"
                               id="black"
-                              className="w-full caret-orange-500 appearance-none h-[5px] my-2 rounded-md bg-orange-400 PriceRange"
+                              className="PriceRange my-2 h-[5px] w-full appearance-none rounded-md bg-orange-400 caret-orange-500"
                             />
                             <div className="flex items-center justify-between text-xs">
                               <span>
@@ -990,15 +938,15 @@ function ShopPage() {
               </div>
             </div>
           </div>
-          <div className="w-full flex items-center mt-4">
+          <div className="mt-4 flex w-full items-center">
             <button
-              className="h-12 w-1/2 ml-2 bg-orange-500 rounded text-white text-lg font-bold"
+              className="ml-2 h-12 w-1/2 rounded bg-orange-500 text-lg font-bold text-white"
               onClick={handleShow}
             >
               تایید
             </button>
             <button
-              className="h-12 w-1/2 mr-2 bg-orange-100 rounded border-2 border-orange-500 text-orange-500 text-lg font-bold"
+              className="mr-2 h-12 w-1/2 rounded border-2 border-orange-500 bg-orange-100 text-lg font-bold text-orange-500"
               onClick={handleCancelAllFilters}
             >
               لغو همه
@@ -1009,26 +957,26 @@ function ShopPage() {
 
       {/* Sort (( Mobile )) */}
       <div
-        className="bg-[#ffffff84] h-screen fixed bottom-0 md:hidden w-full z-[999] hidden"
+        className="fixed bottom-0 z-[999] hidden h-screen w-full bg-[#ffffff84] md:hidden"
         id="sorts"
       >
         <div
-          className="shadow-2xl rounded-t-[30px] w-full bottom-0 h-full absolute px-5 py-3 overflow-auto flex flex-col justify-between"
+          className="absolute bottom-0 flex h-full w-full flex-col justify-between overflow-auto rounded-t-[30px] px-5 py-3 shadow-2xl"
           onClick={handleShow}
         ></div>
-        <div className="bg-white shadow-2xl rounded-t-[30px] w-full bottom-0 h-[32vh] absolute px-5 py-3 overflow-auto flex flex-col justify-between">
-          <div className="bg-white col-span-9 xl:col-span-10 px-2 rounded-md">
-            <div className="flex flex-col gap-y-3 items-center h-full">
+        <div className="absolute bottom-0 flex h-[32vh] w-full flex-col justify-between overflow-auto rounded-t-[30px] bg-white px-5 py-3 shadow-2xl">
+          <div className="col-span-9 rounded-md bg-white px-2 xl:col-span-10">
+            <div className="flex h-full flex-col items-center gap-y-3">
               <button
                 onClick={(e) => handleSort(["rate", "asc"])}
                 name="rate"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "rate" ? "" : "text-gray-400"
                 }`}
               >
                 محبوب ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                  className={`footer-list absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "rate" ? "block" : "hidden"
                   }`}
                 ></span>
@@ -1036,13 +984,13 @@ function ShopPage() {
               <button
                 onClick={(e) => handleSort(["numOfVisits", "asc"])}
                 name="numOfVisits"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "numOfVisits" ? "" : "text-gray-400"
                 }`}
               >
                 پربازدید ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                  className={`footer-list absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "numOfVisits" ? "block" : "hidden"
                   }`}
                 ></span>
@@ -1050,7 +998,7 @@ function ShopPage() {
               <button
                 onClick={(e) => handleSort(["price", "desc"])}
                 name="price"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "price" && sort[1] === "desc"
                     ? ""
                     : "text-gray-400"
@@ -1058,7 +1006,7 @@ function ShopPage() {
               >
                 گران ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                  className={`footer-list absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "price" && sort[1] === "desc"
                       ? "block"
                       : "hidden"
@@ -1068,7 +1016,7 @@ function ShopPage() {
               <button
                 onClick={(e) => handleSort(["price", "asc"])}
                 name="price"
-                className={`px-2 py-1 mx-2 relative ${
+                className={`relative mx-2 px-2 py-1 ${
                   sort[0] === "price" && sort[1] === "asc"
                     ? ""
                     : "text-gray-400"
@@ -1076,7 +1024,7 @@ function ShopPage() {
               >
                 ارزان ترین
                 <span
-                  className={`w-1 h-1 rounded-full bg-orange-400 absolute top-1 left-0 footer-list ${
+                  className={`footer-list absolute top-1 left-0 h-1 w-1 rounded-full bg-orange-400 ${
                     sort[0] === "price" && sort[1] === "asc"
                       ? "block"
                       : "hidden"
@@ -1085,15 +1033,15 @@ function ShopPage() {
               </button>
             </div>
           </div>
-          <div className="w-full flex items-center mt-4">
+          <div className="mt-4 flex w-full items-center">
             <button
-              className="h-12 w-1/2 ml-2 bg-orange-500 rounded text-white text-lg font-bold"
+              className="ml-2 h-12 w-1/2 rounded bg-orange-500 text-lg font-bold text-white"
               onClick={handleShow}
             >
               تایید
             </button>
             <button
-              className="h-12 w-1/2 mr-2 bg-orange-100 rounded border-2 border-orange-500 text-orange-500 text-lg font-bold"
+              className="mr-2 h-12 w-1/2 rounded border-2 border-orange-500 bg-orange-100 text-lg font-bold text-orange-500"
               onClick={handleCancelAllFilters}
             >
               لغو همه

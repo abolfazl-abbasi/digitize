@@ -1,15 +1,6 @@
+import React from "react";
 import Layout from "../Layouts/MainLayout";
-import {
-  HiX,
-  HiOutlineHome,
-  HiOutlineHeart,
-  HiHeart,
-  HiShoppingCart,
-  HiHome,
-  HiOutlineViewGrid,
-  HiOutlineShoppingCart,
-  HiViewGrid,
-} from "react-icons/hi";
+import { HiX } from "react-icons/hi";
 import {
   useCart,
   useCartDispatcher,
@@ -18,8 +9,8 @@ import {
   useTotalPrice,
 } from "../Providers/CartProvider";
 import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 import { addCommas, digitsEnToAr } from "@persian-tools/persian-tools";
+import NavigatorMobile from "../components/NavigatorMobile";
 
 const Cart = () => {
   const cart = useCart();
@@ -36,50 +27,52 @@ const Cart = () => {
     handleDiscountCode_FC,
   } = useCartDispatcher();
 
-  const loc = useLocation();
+  // const loc = useLocation();
 
   return (
     <>
       <Layout title={"سبد خرید"}>
         {cart.length > 0 ? (
-          <section className="flex flex-col md:flex-row items-start my-5 container mx-auto px-5 md:px-0 gap-y-6 w-fit md:gap-x-4 md:w-full min-h-screen">
+          <section className="container my-5 mx-auto flex min-h-screen w-fit flex-col items-start gap-y-6 px-5 md:w-full md:flex-row md:gap-x-4 md:px-0">
             <section className="flex flex-col items-center gap-y-1 md:w-full">
               {cart.map((product) => (
                 <div
                   key={product.id + Math.random()}
-                  className="flex items-center justify-between bg-white rounded-lg py-2 px-3 w-full mb-3"
+                  className="mb-3 flex w-full items-center justify-between rounded-lg bg-white py-2 px-3"
                 >
-                  <div className="flex items-center">
-                    <div className="w-1/4 sm:w-1/5">
-                      <img src={product.mainImage} alt={product.titleEn} />
+                  <Link to={{ pathname: `/products/${product.id}` }}>
+                    <div className="flex items-center">
+                      <div className="w-1/4 sm:w-1/5">
+                        <img src={product.mainImage} alt={product.titleEn} />
+                      </div>
+                      <div className="flex flex-col justify-between gap-y-8 pr-4 sm:gap-y-10">
+                        <span className="text-sm sm:text-base">
+                          {product.titleEn}
+                        </span>
+                        <span className="text-sm font-bold text-orange-500 sm:text-base">
+                          {digitsEnToAr(addCommas(product.price))} تومان
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex flex-col gap-y-8 sm:gap-y-10 justify-between pr-4">
-                      <span className="text-sm sm:text-base">
-                        {product.titleEn}
-                      </span>
-                      <span className="text-orange-500 font-bold text-sm sm:text-base">
-                        {digitsEnToAr(addCommas(product.price))} تومان
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-y-8 sm:gap-y-10 justify-between items-end">
+                  </Link>
+                  <div className="flex flex-col items-end justify-between gap-y-8 sm:gap-y-10">
                     <button
                       className="text-red-400"
                       onClick={() => handleDelete_FC(product)}
                     >
-                      <HiX className="w-5 h-5" />
+                      <HiX className="h-5 w-5" />
                     </button>
                     <div className="flex items-center gap-x-3 sm:gap-x-5">
                       <button
                         onClick={() => handleDecrement_FC(product)}
-                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-red-50 text-red-500 text-lg"
+                        className="flex h-6 w-6 items-center justify-center rounded-full bg-red-50 text-lg text-red-500 sm:h-8 sm:w-8"
                       >
                         -
                       </button>
                       <span>{product.numInCart}</span>
                       <button
                         onClick={() => handleIncrement_FC(product)}
-                        className="w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center bg-green-50 text-green-500 text-lg"
+                        className="flex h-6 w-6 items-center justify-center rounded-full bg-green-50 text-lg text-green-500 sm:h-8 sm:w-8"
                       >
                         +
                       </button>
@@ -88,27 +81,27 @@ const Cart = () => {
                 </div>
               ))}
             </section>
-            <section className="w-full flex flex-col bg-white gap-y-3 p-3 text-sm rounded-lg md:w-96">
+            <section className="flex w-full flex-col gap-y-3 rounded-lg bg-white p-3 text-sm md:w-96">
               <div className="flex flex-col items-start gap-y-2">
-                <div className="w-full flex justify-between items-center">
+                <div className="flex w-full items-center justify-between">
                   <span>مجموع قیمت:</span>
-                  <span className="text-red-500 text-lg">
+                  <span className="text-lg text-red-500">
                     {digitsEnToAr(addCommas(totalPrice))}
                   </span>
                 </div>
                 {discountRes.boolean ? (
-                  <div className="w-full flex justify-between items-center">
+                  <div className="flex w-full items-center justify-between">
                     <span>تخفیف:</span>
-                    <span className="text-green-500 text-lg">
+                    <span className="text-lg text-green-500">
                       {digitsEnToAr(addCommas(discountRes.discount))}
                     </span>
                   </div>
                 ) : (
                   ""
                 )}
-                <div className="w-full flex justify-between items-center">
+                <div className="flex w-full items-center justify-between">
                   <span
-                    className="text-xs text-blue-500"
+                    className="cursor-pointer text-xs text-blue-500"
                     onClick={() =>
                       document
                         .getElementById("discountChecker")
@@ -117,19 +110,19 @@ const Cart = () => {
                   >
                     کد تخفیف دارید؟
                   </span>
-                  <div className="flex flex-col items-end relative">
+                  <div className="relative flex flex-col items-end">
                     <div
-                      className="flex items-center mb-1 pt-1 hidden"
+                      className="mb-1 flex hidden items-center pt-1"
                       id="discountChecker"
                     >
                       <input
                         type="text"
-                        className="border border-gray-600 rounded-r-md w-20 focus:outline-none px-2 ltr"
+                        className="ltr w-20 rounded-r-md border border-gray-600 px-2 focus:outline-none"
                         placeholder="abc123"
                         onChange={(e) => handleDiscountCode_FC(e)}
                       />
                       <button
-                        className="bg-orange-500 rounded-l-md py-[3.3px] px-1 text-xs text-white"
+                        className="rounded-l-md bg-orange-500 py-[3.3px] px-1 text-xs text-white"
                         onClick={handleDiscount_FC}
                       >
                         تایید
@@ -148,9 +141,9 @@ const Cart = () => {
                 </div>
               </div>
               <hr />
-              <div className="w-full flex justify-between items-center">
+              <div className="flex w-full items-center justify-between">
                 <span>قیمت نهایی:</span>
-                <span className="text-green-500 text-lg">
+                <span className="text-lg text-green-500">
                   {discountRes.boolean
                     ? digitsEnToAr(addCommas(totalPrice - discountRes.discount))
                     : digitsEnToAr(addCommas(totalPrice))}
@@ -159,61 +152,14 @@ const Cart = () => {
             </section>
           </section>
         ) : (
-          <h1 className="w-full text-center text-red-500 text-xl mt-4 min-h-[50vh]">
+          <h1 className="mt-4 min-h-[50vh] w-full text-center text-xl text-red-500">
             سبد خالی است!
           </h1>
         )}
       </Layout>
 
       {/* Navigator (( Mobile )) */}
-      <div className="bg-white shadow-2xl px-5 z-50 sticky bottom-0 left-0 w-full h-16 flex md:hidden items-center justify-between rounded-t-lg">
-        <div className="flex items-center justify-between w-full container mx-auto">
-          <Link to={{ pathname: "/" }}>
-            {loc.pathname !== "/" ? (
-              <HiOutlineHome className="h-8 w-8 stroke-gray-400" />
-            ) : (
-              <HiHome className="h-10 w-10 pl-2" />
-            )}
-          </Link>
-          <Link to={{ pathname: "/list" }}>
-            {loc.pathname !== "/list" ? (
-              <HiOutlineViewGrid className="h-8 w-8 stroke-gray-400" />
-            ) : (
-              <HiViewGrid className="h-10 w-10 pl-2" />
-            )}
-          </Link>
-          <Link to={{ pathname: "/cart" }}>
-            {loc.pathname !== "/cart" ? (
-              cart.length !== 0 ? (
-                <div className="relative">
-                  <HiOutlineShoppingCart className="h-8 w-8 stroke-orange-400" />
-                  <span className="w-5 h-5 rounded-full absolute -top-3 -right-3 bg-orange-500 flex items-center justify-center text-sm text-white">
-                    {cart.length}
-                  </span>
-                </div>
-              ) : (
-                <HiOutlineShoppingCart className="h-8 w-8 stroke-gray-400" />
-              )
-            ) : cart.length !== 0 ? (
-              <div className="relative">
-                <HiShoppingCart className="h-8 w-8 fill-orange-400" />
-                <span className="w-5 h-5 rounded-full absolute -top-3 -right-3 bg-orange-500 flex items-center justify-center text-sm text-white">
-                  {cart.length}
-                </span>
-              </div>
-            ) : (
-              <HiShoppingCart className="h-8 w-8 fill-orange-400" />
-            )}
-          </Link>
-          <Link to={{ pathname: "/favorite" }}>
-            {loc.pathname !== "/favorite" ? (
-              <HiOutlineHeart className="h-8 w-8 stroke-gray-400" />
-            ) : (
-              <HiHeart className="h-10 w-10 pl-2 fill-red-500" />
-            )}
-          </Link>
-        </div>
-      </div>
+      <NavigatorMobile />
     </>
   );
 };

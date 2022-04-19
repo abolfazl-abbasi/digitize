@@ -4,6 +4,7 @@ import _ from "lodash";
 import React, { useState, createContext, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import { useStartTransition } from "./CartProvider";
 // import Products from "../data/products";
 import {
   ProductsShowContextProvider,
@@ -88,6 +89,8 @@ export const useSaGDispatcher = () => {
   const setProductsShow = useContext(ProductsShowContextProvider);
   const setFilterBrand = useContext(FilterBrandContextProvider);
   const setFilterColor = useContext(FilterColorContextProvider);
+  const startTransition = useStartTransition();
+  // const pending = usePending();
 
   // useEffect(() => {
   //   handleSort(sort);
@@ -96,12 +99,14 @@ export const useSaGDispatcher = () => {
 
   //? handlers \\
   const handleGrouping = (e) => {
-    const name = e || grouping;
-    setGrouping(name);
-    if (loc.pathname.includes("/products/")) {
-      his.push("/");
-    }
-    setProductsShow(_.filter(products, ["category", name]));
+    startTransition(() => {
+      const name = e || grouping;
+      setGrouping(name);
+      if (loc.pathname.includes("/products/")) {
+        his.push("/");
+      }
+      setProductsShow(_.filter(products, ["category", name]));
+    });
   };
 
   const handleSort = (e) => {
@@ -112,36 +117,42 @@ export const useSaGDispatcher = () => {
         his.push("/");
       }
       if (name !== "") {
-        setProductsShow(_.orderBy(productsShow, [name[0]], [name[1]]));
-        setProducts(_.orderBy(products, [name[0]], [name[1]]));
-      }
-    }
-  };
-
-  const handlePriceRange = async (e) => {
-    const price = e.target.value || priceRange;
-    await setPriceRange(wordsToNumber(price));
-    if (price === null || e) {
-      await setProductsShow(
-        products.filter((pro) => pro.price < Number(price))
-      );
-      if (grouping !== "") {
-        setTimeout(() => {
-          console.log(_.filter(productsShow, ["category", grouping]), grouping);
-          setProductsShow(_.filter(productsShow, ["category", grouping]));
+        startTransition(() => {
+          setProductsShow(_.orderBy(productsShow, [name[0]], [name[1]]));
+          setProducts(_.orderBy(products, [name[0]], [name[1]]));
         });
       }
     }
   };
 
+  const handlePriceRange = (e) => {
+    startTransition(() => {
+      const price = e.target.value || priceRange;
+      setPriceRange(wordsToNumber(price));
+      if (price === null || e) {
+        setProductsShow(products.filter((pro) => pro.price < Number(price)));
+        if (grouping !== "") {
+          setTimeout(() => {
+            setProductsShow(_.filter(productsShow, ["category", grouping]));
+          });
+        }
+      }
+    });
+  };
+
   const handleSearch = (e) => {
-    setProductsShow(
-      productsShow.filter((pro) =>
-        (pro.titleFa + pro.titleEn)
-          .toLowerCase()
-          .includes(e.target.value.toLowerCase().trim())
-      )
-    );
+    if (loc.pathname !== "/") {
+      his.push("/");
+    }
+    startTransition(() => {
+      setProductsShow(
+        products.filter((pro) =>
+          (pro.titleFa + pro.titleEn)
+            .toLowerCase()
+            .includes(e.target.value.toLowerCase().trim())
+        )
+      );
+    });
   };
 
   const handleFilterBrand = (e, brand) => {
@@ -152,66 +163,78 @@ export const useSaGDispatcher = () => {
     }
 
     if (brand !== Array) {
-      if (!e) {
-        setFilterBrand(filterColor.filter((filBrand) => filBrand !== brand));
-        name = filterColor.filter((filBrand) => filBrand !== brand);
-      }
+      startTransition(() => {
+        if (!e) {
+          setFilterBrand(filterColor.filter((filBrand) => filBrand !== brand));
+          name = filterColor.filter((filBrand) => filBrand !== brand);
+        }
 
-      console.log(name.length);
+        if (name.length !== 0) {
+          setProductsShow([]);
 
-      if (name.length !== 0) {
-        setProductsShow([]);
-
-        let arrays = name.map((brand) =>
-          productsShow.filter(
-            (pro) => pro.brandEn.toLowerCase() === brand.toLowerCase()
-          )
-        );
-        setProductsShow([].concat.apply([], arrays));
-      }
+          let arrays = name.map((brand) =>
+            productsShow.filter(
+              (pro) => pro.brandEn.toLowerCase() === brand.toLowerCase()
+            )
+          );
+          setProductsShow([].concat.apply([], arrays));
+        }
+      });
     }
 
     if (name.length === 0) {
-      setProductsShow([...products]);
-      setGrouping("");
+      startTransition(() => {
+        setProductsShow([...products]);
+        setGrouping("");
+      });
     }
   };
 
   const handleFilterColor = (e, color) => {
     var name = [];
     if (e) {
-      setFilterColor([...filterColor, color]);
-      name = [...filterColor, color];
+      startTransition(() => {
+        setFilterColor([...filterColor, color]);
+        name = [...filterColor, color];
+      });
     }
 
     if (!e) {
-      setFilterColor(filterColor.filter((filColor) => filColor !== color));
-      name = filterColor.filter((filColor) => filColor !== color);
+      startTransition(() => {
+        setFilterColor(filterColor.filter((filColor) => filColor !== color));
+        name = filterColor.filter((filColor) => filColor !== color);
+      });
     }
 
     if (name.length !== 0) {
-      setProductsShow([]);
+      startTransition(() => {
+        setProductsShow([]);
 
-      let arrays = name.map((color) =>
-        productsShow.filter((pro) => pro.color.indexOf(color) !== -1)
-      );
+        let arrays = name.map((color) =>
+          productsShow.filter((pro) => pro.color.indexOf(color) !== -1)
+        );
 
-      setProductsShow([].concat.apply([], arrays));
+        setProductsShow([].concat.apply([], arrays));
+      });
     }
 
     if (name.length === 0) {
-      setProductsShow([...products]);
-      setGrouping("");
+      startTransition(() => {
+        setProductsShow([...products]);
+        setGrouping("");
+      });
     }
   };
 
   const handleCancelAllFilters = () => {
-    setSort([]);
-    setGrouping("");
-    setPriceRange();
-    setFilterBrand([]);
-    setFilterColor([]);
-    setProductsShow([...products]);
+    startTransition(() => {
+      setSort([]);
+      setGrouping("");
+      setPriceRange();
+      setFilterBrand([]);
+      setFilterColor([]);
+      setProductsShow([...products]);
+    });
   };
 
   //! Handlers \\

@@ -1,15 +1,18 @@
 import React from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import { useCart } from "../Providers/CartProvider";
 
 const HeaderDesktop = ({ onSearch }) => {
+  const cart = useCart();
+
   return (
     <>
-      <header className="w-full bg-white shadow-md h-20 mb-6 sticky top-0 z-[9999] hidden md:flex">
-        <div className="flex items-center justify-between container mx-auto">
+      <header className="sticky top-0 z-[9999] mb-6 hidden h-20 w-full bg-white shadow-md md:flex">
+        <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center justify-center">
             {/* LOGO */}
-            <div className="hidden lg:block ml-5">
+            <div className="ml-5 hidden lg:block">
               <svg
                 width="99"
                 height="26"
@@ -30,9 +33,9 @@ const HeaderDesktop = ({ onSearch }) => {
 
             {/* Navbar */}
             <nav>
-              <ul className="flex items-center mr-6">
+              <ul className="mr-6 flex items-center">
                 <li
-                  className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
+                  className={`mx-1 rounded px-3 py-1 text-lg transition-all duration-200 hover:bg-gray-100 ${
                     window.location.pathname === "/"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
@@ -41,16 +44,23 @@ const HeaderDesktop = ({ onSearch }) => {
                   <Link to={{ pathname: "/" }}>خانه</Link>
                 </li>
                 <li
-                  className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
+                  className={`relative mx-1 rounded px-3 py-1 text-lg transition-all duration-200 hover:bg-gray-100 ${
                     window.location.pathname === "/cart"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
                   }`}
                 >
                   <Link to={{ pathname: "/cart" }}>سبد خرید</Link>
+                  {cart.length ? (
+                    <div className="absolute -top-1 -left-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange-500 pt-[2px] text-xs text-white">
+                      {cart.length}
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </li>
                 <li
-                  className={`mx-1 px-3 py-1 rounded text-lg hover:bg-gray-100 transition-all duration-200 ${
+                  className={`mx-1 rounded px-3 py-1 text-lg transition-all duration-200 hover:bg-gray-100 ${
                     window.location.pathname === "/favorites"
                       ? "font-bold"
                       : "text-gray-400 hover:text-gray-600"
@@ -63,14 +73,14 @@ const HeaderDesktop = ({ onSearch }) => {
           </div>
 
           {/* SearchBox */}
-          <div className="w-[40%] flex items-center justify-end">
-            <label className="bg-stone-100 outline-none py-2 px-2 flex items-center justify-center">
-              <HiOutlineSearch className="w-5 h-5" />
+          <div className="flex w-[40%] items-center justify-end">
+            <label className="flex items-center justify-center bg-stone-100 py-2 px-2 outline-none">
+              <HiOutlineSearch className="h-5 w-5" />
             </label>
             <input
               onChange={(e) => onSearch(e)}
               type="search"
-              className="bg-stone-100 w-full  outline-none py-[6px] px-2 placeholder:text-gray-400"
+              className="w-full bg-stone-100  py-[6px] px-2 outline-none placeholder:text-gray-400"
               placeholder="جستجوی نام محصول , نام برند و ..."
             />
           </div>

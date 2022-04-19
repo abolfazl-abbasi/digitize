@@ -7,9 +7,9 @@ import "swiper/css/navigation";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-white pb-4 sm:pb-0 mt-6">
-        <div className="container mx-auto flex items-center flex-col sm:flex-row">
-          <div className="flex flex-col my-12  w-3/4">
+      <footer className="mt-6 bg-white pb-4 sm:pb-0">
+        <div className="container mx-auto flex flex-col items-center sm:flex-row">
+          <div className="my-12 flex w-3/4  flex-col">
             <div className="flex items-center">
               <svg
                 className="w-32"
@@ -26,49 +26,49 @@ const Footer = () => {
                   fill="#FF755C"
                 />
               </svg>
-              <div className="w-12 h-1 bg-orange-500 rounded-xl mr-4"></div>
+              <div className="mr-4 h-1 w-12 rounded-xl bg-orange-500"></div>
             </div>
-            <div className="flex justify-between mt-8">
-              <div className="text-lg sm:w-2/3 w-full leading-8">
+            <div className="mt-8 flex justify-between">
+              <div className="w-full text-lg leading-8 sm:w-2/3">
                 لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
                 استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
                 در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
                 نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
               </div>
-              <div className="hidden lg:flex w-48">
+              <div className="hidden w-48 lg:flex">
                 <ul>
-                  <li className="mb-6 font-bold text-xl text-orange-500">
+                  <li className="mb-6 text-xl font-bold text-orange-500">
                     محصولات
                   </li>
-                  <li className="my-4 footer-list">
+                  <li className="footer-list my-4">
                     <Link to={{ pathname: "/" }}>تلفن همراه</Link>
                   </li>
-                  <li className="my-4 footer-list">
+                  <li className="footer-list my-4">
                     <Link to={{ pathname: "/" }}>لپ تاپ</Link>
                   </li>
-                  <li className="my-4 footer-list">
+                  <li className="footer-list my-4">
                     <Link to={{ pathname: "/" }}>ساعت هوشمند</Link>
                   </li>
                 </ul>
               </div>
             </div>
           </div>
-          <div className="flex flex-col sm:w-1/4 items-end mt-3 w-full">
+          <div className="mt-3 flex w-full flex-col items-end sm:w-1/4">
             <div className="">
               <img
-                className="sm:w-48 sm:h-48 w-full px-2 sm:px-0 rounded-xl"
+                className="w-full rounded-xl px-2 sm:h-48 sm:w-48 sm:px-0"
                 src={require("./../assets/img/Footer.jpg")}
                 alt="map"
               />
             </div>
-            <div className="flex sm:flex-col justify-around w-full items-end mt-6 gap-2 ">
+            <div className="mt-6 flex w-full items-end justify-around gap-2 sm:flex-col ">
               <a
                 href="tel:021-123456"
                 className="flex items-center text-gray-600"
               >
                 <div>021-123456</div>
                 <div>
-                  <HiOutlinePhone className="w-6 h-6 mr-3" />
+                  <HiOutlinePhone className="mr-3 h-6 w-6" />
                 </div>
               </a>
               <a
@@ -77,7 +77,7 @@ const Footer = () => {
               >
                 <div>support@info.com</div>
                 <div>
-                  <HiOutlineMail className="w-6 h-6 mr-3" />
+                  <HiOutlineMail className="mr-3 h-6 w-6" />
                 </div>
               </a>
             </div>

@@ -10,7 +10,7 @@ const HeaderMobile = ({ title }) => {
   return (
     <>
       <header className="mt-5 md:hidden">
-        <div className="container px-5 md:px-0 mx-auto">
+        <div className="container mx-auto px-5 md:px-0">
           <div className="flex items-center justify-between">
             {window.location.pathname === "/" ? (
               <>
@@ -40,7 +40,7 @@ const HeaderMobile = ({ title }) => {
               <>
                 {/* Go Back */}
                 <div onClick={his.goBack}>
-                  <div className="bg-white p-1 rounded-md shadow-lg cursor-pointer">
+                  <div className="cursor-pointer rounded-md bg-white p-1 shadow-lg">
                     <HiChevronDown className="h-5 w-5 -rotate-90" />
                   </div>
                 </div>
@@ -50,7 +50,7 @@ const HeaderMobile = ({ title }) => {
             )}
 
             {/* SearchBox */}
-            <div className="bg-white p-1 rounded-md shadow-lg cursor-pointer">
+            <div className="cursor-pointer rounded-md bg-white p-1 shadow-lg">
               <HiOutlineSearch className="h-5 w-5" />
             </div>
           </div>
