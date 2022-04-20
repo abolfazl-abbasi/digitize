@@ -55,7 +55,7 @@ const Cart = () => {
                       </div>
                     </div>
                   </Link>
-                  <div className="flex flex-col items-end space-y-6">
+                  <div className="flex flex-col items-end space-y-6 ">
                     <button
                       className="text-red-400"
                       onClick={() => handleDelete_FC(product)}
