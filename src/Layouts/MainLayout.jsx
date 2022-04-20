@@ -5,8 +5,8 @@ import HeaderMobile from "../components/HeaderMobile";
 const Layout = ({ onSearch, children, title }) => {
   return (
     <>
-      <HeaderDesktop onSearch={onSearch} />
-      <HeaderMobile onSearch={onSearch} title={title} />
+      <HeaderDesktop />
+      <HeaderMobile title={title} />
       {children}
       <Footer />
     </>

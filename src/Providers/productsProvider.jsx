@@ -48,15 +48,17 @@ export const useProductsDispatcher = () => {
   //? Handlers \\
   const handleLike = (product) => {
     const updateProducts = [...products];
-    const index = products.indexOf(product);
+    const index = updateProducts.findIndex((pro) => pro.id === product.id);
     updateProducts[index] = { ...product };
     updateProducts[index].liked = !updateProducts[index].liked;
     if (!product.liked) {
       setFavorites([...favorites, { ...product, liked: true }]);
     } else {
       setFavorites(favorites.filter((pro) => pro.id !== product.id));
-      setProducts([...updateProducts, { ...product, liked: false }]);
-      setProductsShow([...updateProducts, { ...product, liked: false }]);
+      updateProducts[index].liked = false;
+      setProducts([...updateProducts]);
+      setProductsShow([...updateProducts]);
+      console.log(updateProducts);
     }
     setProducts([...updateProducts]);
     setProductsShow([...updateProducts]);

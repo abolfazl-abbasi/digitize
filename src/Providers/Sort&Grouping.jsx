@@ -127,7 +127,7 @@ export const useSaGDispatcher = () => {
 
   const handlePriceRange = (e) => {
     startTransition(() => {
-      const price = e.target.value || priceRange;
+      const price = e || priceRange;
       setPriceRange(wordsToNumber(price));
       if (price === null || e) {
         setProductsShow(products.filter((pro) => pro.price < Number(price)));
@@ -144,15 +144,17 @@ export const useSaGDispatcher = () => {
     if (loc.pathname !== "/") {
       his.push("/");
     }
-    startTransition(() => {
-      setProductsShow(
-        products.filter((pro) =>
-          (pro.titleFa + pro.titleEn)
-            .toLowerCase()
-            .includes(e.target.value.toLowerCase().trim())
-        )
-      );
-    });
+    if (loc.pathname === "/") {
+      startTransition(() => {
+        setProductsShow(
+          products.filter((pro) =>
+            (pro.titleFa + pro.titleEn)
+              .toLowerCase()
+              .includes(e.target.value.toLowerCase().trim())
+          )
+        );
+      });
+    }
   };
 
   const handleFilterBrand = (e, brand) => {

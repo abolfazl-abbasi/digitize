@@ -1,10 +1,15 @@
 import React from "react";
 import { HiOutlineSearch } from "react-icons/hi";
-import { Link } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useCart } from "../Providers/CartProvider";
+import { useSaGDispatcher } from "../Providers/Sort&Grouping";
 
-const HeaderDesktop = ({ onSearch }) => {
+const HeaderDesktop = () => {
   const cart = useCart();
+  const { handleSearch } = useSaGDispatcher();
+
+  const loc = useLocation();
+  const his = useHistory();
 
   return (
     <>
@@ -12,7 +17,7 @@ const HeaderDesktop = ({ onSearch }) => {
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center justify-center">
             {/* LOGO */}
-            <div className="ml-5 hidden lg:block">
+            <Link to={{ pathname: "/" }} className="ml-5 hidden lg:block">
               <svg
                 width="99"
                 height="26"
@@ -29,7 +34,7 @@ const HeaderDesktop = ({ onSearch }) => {
                   fill="#FF755C"
                 />
               </svg>
-            </div>
+            </Link>
 
             {/* Navbar */}
             <nav>
@@ -78,7 +83,12 @@ const HeaderDesktop = ({ onSearch }) => {
               <HiOutlineSearch className="h-5 w-5" />
             </label>
             <input
-              onChange={(e) => onSearch(e)}
+              onChange={(e) => handleSearch(e)}
+              onFocus={() => {
+                if (loc.pathname !== "/") {
+                  his.push("/");
+                }
+              }}
               type="search"
               className="w-full bg-stone-100  py-[6px] px-2 outline-none placeholder:text-gray-400"
               placeholder="جستجوی نام محصول , نام برند و ..."

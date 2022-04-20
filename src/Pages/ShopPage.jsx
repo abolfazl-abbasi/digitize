@@ -50,10 +50,8 @@ function ShopPage() {
   const {
     handleGrouping,
     handlePriceRange,
-    handleSearch,
     handleSort,
     handleFilterBrand,
-    // handleFilterColor,
     handleCancelAllFilters,
   } = useSaGDispatcher();
 
@@ -93,7 +91,7 @@ function ShopPage() {
 
   return (
     <>
-      <Layout onSearch={handleSearch} title={"فروشگاه"}>
+      <Layout title={"فروشگاه"}>
         {/* Filter and Sort mobile section (( Mobile )) */}
         <div className="container mx-auto px-5">
           <div className="my-5 md:hidden">
@@ -283,7 +281,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="black"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -300,7 +298,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="blue"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -317,7 +315,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="red"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500
+                          className=" rounded w-4 focus:ring-orange-500
                   text-orange-500 "
                         />
                         <label
@@ -335,7 +333,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="purple"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -352,7 +350,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="pink"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -393,9 +391,9 @@ function ShopPage() {
                             max={
                               _.maxBy(Products, function (pro) {
                                 return pro.price;
-                              }).price
+                              }).price + 100000
                             }
-                            onChange={(e) => handlePriceRange(e)}
+                            onChange={(e) => handlePriceRange(e.target.value)}
                             name="priceRange"
                             id="black"
                             className="PriceRange my-2 h-[5px] w-full appearance-none rounded-md bg-orange-400 caret-orange-500"
@@ -790,7 +788,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="black"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -807,7 +805,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="blue"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -824,7 +822,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="red"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500 "
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500 "
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -841,7 +839,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="purple"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"
@@ -858,7 +856,7 @@ function ShopPage() {
                           type="checkbox"
                           name="color"
                           id="pink"
-                          className="form-checkbox rounded w-4 focus:ring-orange-500 text-orange-500"
+                          className=" rounded w-4 focus:ring-orange-500 text-orange-500"
                         />
                         <label
                           className="pr-2 w-full text-sm cursor-pointer"

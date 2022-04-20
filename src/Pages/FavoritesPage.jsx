@@ -22,12 +22,7 @@ const Favorites = () => {
   const favorites = useFavorites();
   console.log(favorites);
 
-  const {
-    // handleAddToCart_FC,
-    handleDecrement_FC,
-    handleIncrement_FC,
-    handleAddToCart_FC,
-  } = useCartDispatcher();
+  const { handleAddToCart_FC } = useCartDispatcher();
 
   const { handleLike } = useProductsDispatcher();
 
@@ -40,7 +35,7 @@ const Favorites = () => {
               {favorites.map((product) => (
                 <div
                   key={product.id + Math.random()}
-                  className="mb-3 flex w-full items-center justify-between rounded-lg bg-white py-2 px-3"
+                  className="mb-5 flex w-full items-center justify-between rounded-lg bg-white py-2 px-3"
                 >
                   <div className="flex items-center">
                     <div className="w-1/4 sm:w-1/5">
@@ -71,28 +66,14 @@ const Favorites = () => {
                         .map((pro) => pro.id === product.id)
                         .indexOf(true) !== -1 ? (
                         <>
-                          <button
-                            onClick={() =>
-                              handleDecrement_FC(cart.map((pro) => pro))
-                            }
-                            className="flex h-6 w-6 items-center justify-center rounded-full bg-red-50 text-lg text-red-500 sm:h-8 sm:w-8"
-                          >
-                            -
-                          </button>
-                          <span>{cart.map((pro) => pro.numInCart)}</span>
-                          <button
-                            onClick={() =>
-                              handleIncrement_FC(cart.map((pro) => pro))
-                            }
-                            className="flex h-6 w-6 items-center justify-center rounded-full bg-green-50 text-lg text-green-500 sm:h-8 sm:w-8"
-                          >
-                            +
+                          <button className="whitespace-nowrap rounded-md bg-orange-500 p-2 text-xs text-white md:text-sm lg:text-base">
+                            افزوده شد!
                           </button>
                         </>
                       ) : (
                         <button
                           onClick={(e) => handleAddToCart_FC(product)}
-                          className="rounded-md bg-orange-500 p-2 text-white"
+                          className="whitespace-nowrap rounded-md bg-orange-500 p-2 text-xs text-white md:text-sm lg:text-base"
                         >
                           افزودن به سبد
                         </button>
@@ -105,7 +86,7 @@ const Favorites = () => {
           </section>
         ) : (
           <h1 className="mt-4 min-h-[50vh] w-full text-center text-xl text-red-500">
-            خالی است!
+            مورد علاقه ها خالی است!
           </h1>
         )}
       </Layout>

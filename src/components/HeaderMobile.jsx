@@ -1,11 +1,33 @@
-import React from "react";
+import React, { useRef } from "react";
 import { HiChevronDown, HiOutlineSearch } from "react-icons/hi";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
+import { useSaGDispatcher } from "../Providers/Sort&Grouping";
 
 const HeaderMobile = ({ title }) => {
   const his = useHistory();
+  const loc = useLocation();
+  const searchBack = useRef();
+  const searchBox = useRef();
+
+  const { handleSearch } = useSaGDispatcher();
+
+  const handleSearchBox = (e) => {
+    if (loc.pathname !== "/") {
+      his.push("/");
+    }
+    searchBack.current.classList.add("block");
+    searchBack.current.classList.remove("hidden");
+    searchBox.current.classList.add("flex");
+    searchBox.current.classList.remove("hidden");
+    if (e === "back") {
+      searchBack.current.classList.remove("block");
+      searchBack.current.classList.add("hidden");
+      searchBox.current.classList.remove("flex");
+      searchBox.current.classList.add("hidden");
+    }
+  };
 
   return (
     <>
@@ -50,10 +72,32 @@ const HeaderMobile = ({ title }) => {
             )}
 
             {/* SearchBox */}
-            <div className="cursor-pointer rounded-md bg-white p-1 shadow-lg">
+            <div
+              className="cursor-pointer rounded-md bg-white p-1 shadow-lg"
+              onClick={handleSearchBox}
+            >
               <HiOutlineSearch className="h-5 w-5" />
             </div>
           </div>
+        </div>
+        <div
+          className="fixed top-0 z-[999] hidden h-screen w-screen bg-[#00000090]"
+          ref={searchBack}
+          onClick={(e) => handleSearchBox("back")}
+        ></div>
+        <div
+          className="fixed top-[11%] z-[1000] hidden w-screen items-center justify-center"
+          ref={searchBox}
+        >
+          <label className="flex items-center justify-center rounded-r-lg border-none bg-stone-100 py-2 px-2 outline-none">
+            <HiOutlineSearch className="h-5 w-5" />
+          </label>
+          <input
+            className="h-9 w-3/5 rounded-l-lg bg-stone-100 p-1 text-sm outline-none"
+            type="search"
+            placeholder="جستجو . . ."
+            onChange={(e) => handleSearch(e)}
+          />
         </div>
       </header>
     </>
