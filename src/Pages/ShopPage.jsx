@@ -900,9 +900,9 @@ function ShopPage() {
                               max={
                                 _.maxBy(Products, function (pro) {
                                   return pro.price;
-                                }).price
+                                }).price + 100000
                               }
-                              onChange={(e) => handlePriceRange(e)}
+                              onChange={(e) => handlePriceRange(e.target.value)}
                               name="priceRange"
                               id="black"
                               className="PriceRange my-2 h-[5px] w-full appearance-none rounded-md bg-orange-400 caret-orange-500"
