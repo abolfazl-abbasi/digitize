@@ -12,6 +12,7 @@ import {
   useFavorites,
   useProductsDispatcher,
 } from "../Providers/productsProvider";
+import { Link } from "react-router-dom";
 
 const Favorites = () => {
   const cart = useCart();
@@ -37,22 +38,25 @@ const Favorites = () => {
                   key={product.id + Math.random()}
                   className="mb-5 flex w-full items-center justify-between rounded-lg bg-white py-2 px-3"
                 >
-                  <div className="flex items-center">
+                  <Link
+                    to={{ pathname: `/products/${product.id}` }}
+                    className="flex items-center"
+                  >
                     <div className="w-1/4 sm:w-1/5">
                       <img src={product.mainImage} alt={product.titleEn} />
                     </div>
-                    <div className="flex flex-col justify-between gap-y-8 pr-4 sm:gap-y-10">
-                      <span className="text-sm sm:text-base">
+                    <div className="flex flex-col pr-4 sm:gap-y-10">
+                      <span className="mb-8 text-sm sm:text-base">
                         {product.titleEn}
                       </span>
                       <span className="text-sm font-bold text-orange-500 sm:text-base">
                         {digitsEnToAr(addCommas(product.price))} تومان
                       </span>
                     </div>
-                  </div>
-                  <div className="relative flex flex-col items-end justify-between gap-y-8 sm:gap-y-10">
+                  </Link>
+                  <div className="relative flex flex-col items-end  sm:gap-y-10">
                     <div
-                      className="inline-flex cursor-pointer rounded-full bg-[#ffffff42] p-1"
+                      className="mb-8 inline-flex cursor-pointer rounded-full bg-[#ffffff42] p-1"
                       onClick={() => handleLike(product)}
                     >
                       {product.liked ? (

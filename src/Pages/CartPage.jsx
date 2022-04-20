@@ -45,7 +45,7 @@ const Cart = () => {
                       <div className="w-1/4 sm:w-1/5">
                         <img src={product.mainImage} alt={product.titleEn} />
                       </div>
-                      <div className="flex flex-col justify-between gap-y-8 pr-4 sm:gap-y-10">
+                      <div className="flex flex-col space-y-6 pr-4">
                         <span className="text-sm sm:text-base">
                           {product.titleEn}
                         </span>
@@ -55,7 +55,7 @@ const Cart = () => {
                       </div>
                     </div>
                   </Link>
-                  <div className="flex flex-col items-end justify-between gap-y-8 sm:gap-y-10">
+                  <div className="flex flex-col items-end space-y-6">
                     <button
                       className="text-red-400"
                       onClick={() => handleDelete_FC(product)}
