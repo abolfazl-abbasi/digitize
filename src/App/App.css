@@ -3,6 +3,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  outline: none;
+}
+
 body {
   @apply mx-auto bg-gray-100;
 }
