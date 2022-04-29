@@ -3,16 +3,22 @@ import {
   HiOutlineLogout,
   HiOutlineTruck,
 } from "react-icons/hi";
-import { Link, Route } from "react-router-dom";
+import { Link, Route, useHistory, useLocation } from "react-router-dom";
 import NavigatorMobile from "../components/NavigatorMobile";
 import Layout from "../Layouts/MainLayout";
-import { useUserData } from "../Providers/SignProvider";
+import { useUserData, useUserDataDispatcher } from "../Providers/SignProvider";
 import "swiper/css";
 import OrdersPage from "./OrdersPage";
 
 const ProfilePage = () => {
   const userData = useUserData();
-  // const loc = useLocation();
+  const { handleLogout } = useUserDataDispatcher();
+  const loc = useLocation();
+  const his = useHistory();
+
+  if (!userData) {
+    his.push("/login");
+  }
 
   return (
     <>
@@ -24,7 +30,13 @@ const ProfilePage = () => {
             <div className="sticky top-24 h-auto max-h-48 w-full rounded-2xl bg-white md:shadow-lg">
               <ul className="px-2">
                 <Link to={"/profile"}>
-                  <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-600">
+                  <button
+                    className={`${
+                      loc.pathname === "/profile"
+                        ? "bg-blue-100 text-blue-600"
+                        : ""
+                    } my-3 flex w-full items-center rounded-md p-2 text-gray-700`}
+                  >
                     <span>
                       <HiOutlineLibrary className="ml-2 h-5 w-5" />
                     </span>
@@ -32,7 +44,13 @@ const ProfilePage = () => {
                   </button>
                 </Link>
                 <Link to={"/profile/orders"}>
-                  <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-600">
+                  <button
+                    className={`${
+                      loc.pathname === "/profile/orders"
+                        ? "bg-blue-100 text-blue-600"
+                        : ""
+                    } my-3 flex w-full items-center rounded-md p-2 text-gray-700`}
+                  >
                     <span>
                       <HiOutlineTruck className="ml-2 h-5 w-5" />
                     </span>
@@ -40,7 +58,10 @@ const ProfilePage = () => {
                   </button>
                 </Link>
                 <hr />
-                <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-500 hover:bg-red-100 hover:text-red-600">
+                <button
+                  className="my-3 flex w-full items-center rounded-md p-2 text-gray-500 hover:bg-red-100 hover:text-red-600"
+                  onClick={handleLogout}
+                >
                   <span>
                     <HiOutlineLogout className="ml-2 h-5 w-5" />
                   </span>

@@ -28,7 +28,7 @@ const CheckoutProvider = ({ children }) => {
   const [deliveryDay, setDeliveryDay] = useState();
   const [deliveryDays, setDeliveryDays] = useState();
   const [orders, setOrders] = useState([]);
-  const [showOrders, setShowOrders] = useState([...orders]);
+  const [showOrders, setShowOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState("");
   const [address, setAddress] = useState({
     name: "",
@@ -41,11 +41,17 @@ const CheckoutProvider = ({ children }) => {
       const data = JSON.parse(localStorage.getItem("userAddressData"));
       setAddress(data);
     }
+    if (localStorage.getItem("userOrdersData")) {
+      const data = JSON.parse(localStorage.getItem("userOrdersData"));
+      setOrders(data);
+      setShowOrders(data);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("userAddressData", JSON.stringify(address));
-  }, [address]);
+    localStorage.setItem("userOrdersData", JSON.stringify(orders));
+  }, [address, orders]);
 
   return (
     <>

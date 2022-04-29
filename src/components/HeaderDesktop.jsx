@@ -10,13 +10,14 @@ import {
 } from "react-icons/hi";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useCart } from "../Providers/CartProvider";
-import { useUserData } from "../Providers/SignProvider";
+import { useUserData, useUserDataDispatcher } from "../Providers/SignProvider";
 import { useSaGDispatcher } from "../Providers/Sort&Grouping";
 
 const HeaderDesktop = () => {
   const cart = useCart();
   const { handleSearch } = useSaGDispatcher();
   const userData = useUserData();
+  const { handleLogout } = useUserDataDispatcher();
 
   const loc = useLocation();
   const his = useHistory();
@@ -147,7 +148,10 @@ const HeaderDesktop = () => {
                           </button>
                         </Link>
                         <hr />
-                        <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-500 hover:bg-red-100 hover:text-red-600">
+                        <button
+                          className="my-3 flex w-full items-center rounded-md p-2 text-gray-500 hover:bg-red-100 hover:text-red-600"
+                          onClick={handleLogout}
+                        >
                           <span>
                             <HiOutlineLogout className="ml-2 h-5 w-5" />
                           </span>

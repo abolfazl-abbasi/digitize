@@ -6,7 +6,7 @@ import {
   HiOutlineChevronLeft,
 } from "react-icons/hi";
 import { BiTimeFive } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import {
   useCart,
   useCartDispatcher,
@@ -24,11 +24,13 @@ import {
   useDeliveryDay,
   useCheckoutProvider,
 } from "../Providers/CheckoutProvider";
+import { useUserData } from "../Providers/SignProvider";
 
 const CheckoutPage = () => {
   const deliveryDay = useDeliveryDay();
   const totalPrice = useTotalPrice();
   const finalPrice = useFinalPrice();
+  const userData = useUserData();
   const address = useAddress();
   const cart = useCart();
 
@@ -43,7 +45,11 @@ const CheckoutPage = () => {
     handleSetOrder,
   } = useCheckoutProvider();
 
-  // const {handleSetOrder} =
+  const his = useHistory();
+
+  if (!userData) {
+    his.push("/login");
+  }
 
   const discountRes = useDiscountRes();
   const shipping = 25_000;

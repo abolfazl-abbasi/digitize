@@ -1,4 +1,5 @@
 import React, { useContext, createContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 
 export const UserDataContext = createContext();
 export const UserDataContextProvider = createContext();
@@ -27,12 +28,20 @@ export const useUserDataDispatcher = () => {
   //? Providers \\
   const setUserData = useContext(UserDataContextProvider);
 
+  const his = useHistory();
+
   //? Handlers \\
+  const handleLogout = () => {
+    setUserData(null);
+    localStorage.removeItem("userSignData");
+    his.push("/");
+  };
   //! Handlers \\
 
   //? returned handlers for use \\
   return {
     setUserData,
+    handleLogout,
   };
 };
 
