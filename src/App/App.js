@@ -8,7 +8,7 @@ import Products from "../data/products.js";
 import Cart from "../Pages/CartPage.jsx";
 import Favorites from "../Pages/FavoritesPage.jsx";
 import Signup from "../Pages/SignupPage.jsx";
-import { ToastContainer } from "react-toastify";
+import toast, { Toaster } from "react-hot-toast";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "../Pages/LoginPage.jsx";
 import { useEffect } from "react";
@@ -48,7 +48,7 @@ function App() {
 
   return (
     <>
-      <ToastContainer />
+      <Toaster />
       <Switch>
         <Route path={"/"} exact>
           <ShopPage />

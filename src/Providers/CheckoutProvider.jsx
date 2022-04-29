@@ -8,7 +8,7 @@ import {
   useStartTransition,
 } from "./CartProvider";
 // import { useProducts } from "./productsProvider";
-import { toast } from "react-toastify/dist";
+import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 
 const DeliveryDaysContext = createContext();
@@ -191,16 +191,7 @@ export const useCheckoutProvider = () => {
 
     his.push("/profile/orders");
 
-    toast.success("", {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "colored",
-    });
+    toast.success("خرید با موفقیت انجام شد!");
 
     startTransition(() => {
       setDeliveryDay("");

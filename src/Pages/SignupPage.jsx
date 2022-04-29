@@ -3,7 +3,7 @@ import { useFormik } from "formik";
 import React from "react";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useUserData, useUserDataDispatcher } from "../Providers/SignProvider";
 const queryString = require("query-string");
 
@@ -93,16 +93,7 @@ const SignupPage = () => {
           formik.setTouched({});
           formik.setFieldError({});
 
-          toast.success(res.statusText, {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.success(res.statusText);
 
           setTimeout(() => {
             if (query.redirect) return his.push(query.redirect);
@@ -110,16 +101,7 @@ const SignupPage = () => {
           }, 2000);
         })
         .catch((err) => {
-          toast.error("ایمل یا شماره تلفن قبلا ثبت شده است!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "colored",
-          });
+          toast.error("ایمل یا شماره تلفن قبلا ثبت شده است!");
         });
     },
     validationSchema,
@@ -136,9 +118,8 @@ const SignupPage = () => {
 
   return (
     <>
-      <ToastContainer />
-      <div className="h-full w-screen items-center justify-center lg:flex lg:h-screen lg:min-h-full">
-        <div className="flex h-full w-full flex-col items-center justify-center bg-white py-8 lg:w-7/12 ">
+      <div className="h-screen w-screen items-center justify-center lg:flex lg:h-screen lg:min-h-full">
+        <div className="flex h-screen w-full flex-col items-center justify-center bg-white py-8 lg:w-7/12 ">
           <h1 className="text-6xl">
             <svg
               width="200"
