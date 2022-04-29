@@ -1,4 +1,4 @@
-import React, { useContext, createContext, useState } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import { startTransition } from "react";
 import Products from "../data/products";
 
@@ -10,9 +10,42 @@ export const FavoritesContext = createContext();
 export const FavoritesContextProvider = createContext();
 
 const ProductsProvider = ({ children }) => {
-  const [products, setProducts] = useState([...Products]);
+  const [products, setProducts] = useState([
+    ...Products.map((product) => ({
+      ...product,
+      activeColor: product.color[0],
+      liked: false,
+    })),
+  ]);
+
   const [productsShow, setProductsShow] = useState([...products]);
   const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    if (localStorage.getItem("userFavoritesData")) {
+      const updatedProducts = [...products];
+      const data = JSON.parse(localStorage.getItem("userFavoritesData"));
+
+      let favs = [];
+
+      for (let i = 0; i < data.length; i++) {
+        const favorite = updatedProducts.find((o) => o.id === data[i]);
+        favs = [...favs, { ...favorite, liked: true }];
+        const index = updatedProducts.indexOf(favorite);
+        updatedProducts[index].liked = true;
+      }
+
+      setFavorites([...favs]);
+      setProducts([...updatedProducts]);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "userFavoritesData",
+      JSON.stringify(favorites.map((o) => o.id))
+    );
+  }, [favorites]);
 
   return (
     <>
@@ -58,7 +91,6 @@ export const useProductsDispatcher = () => {
       updateProducts[index].liked = false;
       setProducts([...updateProducts]);
       setProductsShow([...updateProducts]);
-      console.log(updateProducts);
     }
     setProducts([...updateProducts]);
     setProductsShow([...updateProducts]);

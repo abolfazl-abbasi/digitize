@@ -54,7 +54,7 @@ const Footer = () => {
             </div>
           </div>
           <div className="mt-3 flex w-full flex-col items-end sm:w-1/4">
-            <div className="">
+            <div>
               <img
                 className="w-full rounded-xl px-2 sm:h-48 sm:w-48 sm:px-0"
                 src={require("./../assets/img/Footer.jpg")}

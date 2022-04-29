@@ -4,11 +4,7 @@ import {
   HiOutlineDesktopComputer,
   HiChevronDown,
   HiOutlineHome,
-  // HiOutlineColorSwatch,
   HiOutlineCreditCard,
-  // HiOutlineRewind,
-  // HiOutlineArrowSmLeft,
-  // HiOutlineArrowSmRight,
   HiOutlineFilter,
   HiOutlineHeart,
   HiHeart,
@@ -553,10 +549,7 @@ function ShopPage() {
                     </div>
                   </div>
                   <hr />
-                  <Link
-                    to={{ pathname: `/products/${product.id}` }}
-                    className=""
-                  >
+                  <Link to={{ pathname: `/products/${product.id}` }}>
                     <button className="w-full p-1 text-sm font-bold text-orange-500 sm:text-base">
                       مشاهده و سفارش
                     </button>

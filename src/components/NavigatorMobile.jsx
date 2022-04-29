@@ -4,7 +4,11 @@ import {
   HiOutlineHeart,
   HiOutlineHome,
   HiOutlineShoppingCart,
+  HiOutlineUser,
+  HiOutlineUserCircle,
   HiShoppingCart,
+  HiUser,
+  HiUserCircle,
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { useCart } from "../Providers/CartProvider";
@@ -53,6 +57,13 @@ const NavigatorMobile = () => {
               <HiOutlineHeart className="h-8 w-8 stroke-gray-400" />
             ) : (
               <HiHeart className="h-10 w-10 fill-red-500 pl-2" />
+            )}
+          </Link>
+          <Link to={{ pathname: "/profile" }}>
+            {loc.pathname.startsWith("/profile") ? (
+              <HiUserCircle className="h-10 w-10 fill-gray-800 pl-2" />
+            ) : (
+              <HiOutlineUserCircle className="h-8 w-8 stroke-gray-400" />
             )}
           </Link>
         </div>

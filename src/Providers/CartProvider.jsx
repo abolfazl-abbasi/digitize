@@ -1,9 +1,11 @@
 import React, {
   createContext,
   useContext,
+  useEffect,
   useState,
   useTransition,
 } from "react";
+import { useProducts, useProductsDispatcher } from "./productsProvider";
 
 const CartContext = createContext();
 const CartContextProvider = createContext();
@@ -13,6 +15,8 @@ const DiscountResContext = createContext();
 const DiscountResContextProvider = createContext();
 const TotalPriceContext = createContext();
 const TotalPriceContextProvider = createContext();
+const FinalPriceContext = createContext();
+const FinalPriceContextProvider = createContext();
 const StartTransition = createContext();
 const Pending = createContext();
 
@@ -20,12 +24,59 @@ const CartProvider = ({ children }) => {
   const [pending, startTransition] = useTransition();
   const [cart, setCart] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [finalPrice, setFinalPrice] = useState(0);
   const [discountCode, setDiscountCode] = useState("");
   const [discountRes, setDiscountRes] = useState({
     boolean: false,
     response: "",
     discount: 0,
   });
+
+  const products = useProducts();
+  const { setProducts } = useProductsDispatcher();
+
+  useEffect(() => {
+    if (localStorage.getItem("userCartData")) {
+      const updatedProducts = [...products];
+      const data = JSON.parse(localStorage.getItem("userCartData"));
+
+      let pros = [];
+
+      for (let i = 0; i < data.length; i++) {
+        const product = updatedProducts.find((o) => o.id === data[i].id);
+        pros = [
+          ...pros,
+          {
+            ...product,
+            numOnCart: data[i].numOnCart,
+            activeColor: data[i].activeColor,
+          },
+        ];
+      }
+
+      setTotalPrice(
+        cart.reduce((sum, i) => {
+          return sum + i.price * i.numOnCart;
+        }, 0)
+      );
+
+      setCart([...pros]);
+      setProducts([...updatedProducts]);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "userCartData",
+      JSON.stringify(
+        cart.map((o) => ({
+          id: o.id,
+          numOnCart: o.numOnCart,
+          activeColor: o.activeColor,
+        }))
+      )
+    );
+  }, [cart]);
 
   return (
     <>
@@ -35,19 +86,23 @@ const CartProvider = ({ children }) => {
             <Pending.Provider value={pending}>
               <TotalPriceContext.Provider value={totalPrice}>
                 <TotalPriceContextProvider.Provider value={setTotalPrice}>
-                  <DiscountCodeContext.Provider value={discountCode}>
-                    <DiscountCodeContextProvider.Provider
-                      value={setDiscountCode}
-                    >
-                      <DiscountResContext.Provider value={discountRes}>
-                        <DiscountResContextProvider.Provider
-                          value={setDiscountRes}
+                  <FinalPriceContext.Provider value={finalPrice}>
+                    <FinalPriceContextProvider.Provider value={setFinalPrice}>
+                      <DiscountCodeContext.Provider value={discountCode}>
+                        <DiscountCodeContextProvider.Provider
+                          value={setDiscountCode}
                         >
-                          {children}
-                        </DiscountResContextProvider.Provider>
-                      </DiscountResContext.Provider>
-                    </DiscountCodeContextProvider.Provider>
-                  </DiscountCodeContext.Provider>
+                          <DiscountResContext.Provider value={discountRes}>
+                            <DiscountResContextProvider.Provider
+                              value={setDiscountRes}
+                            >
+                              {children}
+                            </DiscountResContextProvider.Provider>
+                          </DiscountResContext.Provider>
+                        </DiscountCodeContextProvider.Provider>
+                      </DiscountCodeContext.Provider>
+                    </FinalPriceContextProvider.Provider>
+                  </FinalPriceContext.Provider>
                 </TotalPriceContextProvider.Provider>
               </TotalPriceContext.Provider>
             </Pending.Provider>
@@ -62,31 +117,48 @@ export const useCart = () => useContext(CartContext);
 export const useDiscountCode = () => useContext(DiscountCodeContext);
 export const useDiscountRes = () => useContext(DiscountResContext);
 export const useTotalPrice = () => useContext(TotalPriceContext);
+export const useFinalPrice = () => useContext(FinalPriceContext);
 export const useStartTransition = () => useContext(StartTransition);
 export const usePending = () => useContext(Pending);
 
 export const useCartDispatcher = () => {
+  //? Providers \\
   const cart = useCart();
   const totalPrice = useTotalPrice();
   const discountCode = useDiscountCode();
+  const discountRes = useDiscountRes();
   const setCart = useContext(CartContextProvider);
   const setTotalPrice = useContext(TotalPriceContextProvider);
+  const setFinalPrice = useContext(FinalPriceContextProvider);
   const setDiscountCode = useContext(DiscountCodeContextProvider);
   const setDiscountRes = useContext(DiscountResContextProvider);
+  const shipping = 25_000;
 
+  //? Handlers \\
   const handleAddToCart_FC = (product) => {
-    if (cart.map((pro) => pro.id === product.id).indexOf(true) !== -1) {
+    if (
+      cart
+        .map(
+          (pro) =>
+            pro.id === product.id && pro.activeColor === product.activeColor
+        )
+        .indexOf(true) !== -1
+    ) {
       return;
     }
-    setCart([...cart, { ...product, numInCart: 1 }]);
-    setTotalPrice(totalPrice + product.price);
+    setCart([...cart, { ...product, numOnCart: 1 }]);
+    setTotalPrice(
+      cart.reduce((sum, i) => {
+        return sum + i.price * i.numOnCart;
+      }, 0)
+    );
   };
 
   const handleIncrement_FC = (product) => {
     const updatedCart = [...cart];
     const index = updatedCart.indexOf(product);
     updatedCart[index] = { ...product };
-    updatedCart[index].numInCart += 1;
+    updatedCart[index].numOnCart += 1;
     setCart(updatedCart);
     setTotalPrice(totalPrice + product.price);
   };
@@ -95,17 +167,33 @@ export const useCartDispatcher = () => {
     const updatedCart = [...cart];
     const index = updatedCart.indexOf(product);
     updatedCart[index] = { ...product };
-    if (product.numInCart === 1) {
-      return setCart(updatedCart.filter((pro) => pro.id !== product.id));
+
+    if (product.numOnCart === 1) {
+      return setCart(
+        updatedCart.filter(
+          (pro) => pro.id + pro.activeColor !== product.id + product.activeColor
+        )
+      );
     }
-    updatedCart[index].numInCart -= 1;
+
+    updatedCart[index].numOnCart -= 1;
     setCart(updatedCart);
-    setTotalPrice(totalPrice - product.price);
+    setTotalPrice(
+      cart.reduce((sum, i) => {
+        return sum + i.price * i.numOnCart;
+      }, 0)
+    );
   };
 
   const handleDelete_FC = (product) => {
-    setCart(cart.filter((pro) => pro.id !== product.id));
-    setTotalPrice(totalPrice - product.price * product.numInCart);
+    const updatedCart = [...cart];
+    const index = updatedCart.indexOf(product);
+    setCart(
+      updatedCart.filter(
+        (pro) => pro.id + pro.activeColor !== product.id + product.activeColor
+      )
+    );
+    updatedCart[index].numOnCart = 0;
   };
 
   const handleDiscountCode_FC = (e) => {
@@ -145,6 +233,16 @@ export const useCartDispatcher = () => {
     }
   };
 
+  setTotalPrice(
+    cart.reduce((sum, i) => {
+      return sum + i.price * i.numOnCart;
+    }, 0)
+  );
+
+  setFinalPrice(totalPrice - discountRes.discount + shipping);
+  //! Handlers \\
+
+  //? returned handlers for use \\
   return {
     handleAddToCart_FC,
     handleDecrement_FC,
@@ -152,6 +250,7 @@ export const useCartDispatcher = () => {
     handleIncrement_FC,
     handleDiscount_FC,
     handleDiscountCode_FC,
+    setCart,
   };
 };
 

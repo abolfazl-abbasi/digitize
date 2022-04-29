@@ -1,33 +1,29 @@
 import React from "react";
 import Layout from "../Layouts/MainLayout";
-import { HiX } from "react-icons/hi";
+import { HiX, HiOutlineShieldCheck } from "react-icons/hi";
 import {
   useCart,
   useCartDispatcher,
   // useDiscountCode,
   useDiscountRes,
+  useFinalPrice,
   useTotalPrice,
 } from "../Providers/CartProvider";
 import { Link } from "react-router-dom";
 import { addCommas, digitsEnToAr } from "@persian-tools/persian-tools";
 import NavigatorMobile from "../components/NavigatorMobile";
+import { useUserData } from "../Providers/SignProvider";
 
-const Cart = () => {
+const CartPage = () => {
   const cart = useCart();
   // const discountCode = useDiscountCode();
   const discountRes = useDiscountRes();
   const totalPrice = useTotalPrice();
+  const userData = useUserData();
+  const finalPrice = useFinalPrice();
 
-  const {
-    // handleAddToCart_FC,
-    handleDecrement_FC,
-    handleDelete_FC,
-    handleIncrement_FC,
-    handleDiscount_FC,
-    handleDiscountCode_FC,
-  } = useCartDispatcher();
-
-  // const loc = useLocation();
+  const { handleDecrement_FC, handleDelete_FC, handleIncrement_FC } =
+    useCartDispatcher();
 
   return (
     <>
@@ -45,31 +41,58 @@ const Cart = () => {
                       <div className="w-1/4 sm:w-1/5">
                         <img src={product.mainImage} alt={product.titleEn} />
                       </div>
-                      <div className="flex flex-col space-y-6 pr-4">
+                      <div className="flex flex-col space-y-2 pr-4 md:space-y-4">
                         <span className="text-sm sm:text-base">
                           {product.titleEn}
                         </span>
+                        <div className="flex items-center gap-x-3">
+                          <div className="my-2 flex items-center text-gray-700">
+                            <div className="mx-2 h-4 w-4 rounded-full bg-gray-300">
+                              <HiOutlineShieldCheck className="mr-[5px] mt-[5px] h-4 w-4" />
+                            </div>
+                            <span className="mx-1 text-xs font-light">
+                              رنگ :
+                            </span>
+                            <span className="mx-1 text-xs font-bold">
+                              <div
+                                className={`h-4 w-4 rounded-full bg-${product.activeColor}`}
+                              ></div>
+                            </span>
+                          </div>
+                          <div className="my-2 hidden items-center text-gray-700 md:flex">
+                            <div className="mx-2 h-4 w-4 rounded-full bg-gray-300">
+                              <HiOutlineShieldCheck className="mr-[5px] mt-[5px] h-4 w-4" />
+                            </div>
+                            <span className="mx-1 text-xs font-light">
+                              گارانتی :
+                            </span>
+                            <span className="mx-1 text-xs font-bold">
+                              {product.services.warranty}
+                            </span>
+                          </div>
+                        </div>
                         <span className="text-sm font-bold text-orange-500 sm:text-base">
                           {digitsEnToAr(addCommas(product.price))} تومان
                         </span>
                       </div>
                     </div>
                   </Link>
-                  <div className="flex flex-col items-end space-y-6 ">
+                  <div className="flex flex-col items-end space-y-6">
                     <button
-                      className="text-red-400"
+                      className="text-red-400 md:my-2"
                       onClick={() => handleDelete_FC(product)}
                     >
                       <HiX className="h-5 w-5" />
                     </button>
-                    <div className="flex items-center gap-x-3 sm:gap-x-5">
+                    <div></div>
+                    <div className="flex items-center gap-x-3 sm:gap-x-5 md:my-2">
                       <button
                         onClick={() => handleDecrement_FC(product)}
                         className="flex h-6 w-6 items-center justify-center rounded-full bg-red-50 text-lg text-red-500 sm:h-8 sm:w-8"
                       >
                         -
                       </button>
-                      <span>{product.numInCart}</span>
+                      <span>{product.numOnCart}</span>
                       <button
                         onClick={() => handleIncrement_FC(product)}
                         className="flex h-6 w-6 items-center justify-center rounded-full bg-green-50 text-lg text-green-500 sm:h-8 sm:w-8"
@@ -81,73 +104,37 @@ const Cart = () => {
                 </div>
               ))}
             </section>
-            <section className="flex w-full flex-col gap-y-3 rounded-lg bg-white p-3 text-sm md:w-96">
+            <section className="sticky top-24 mb-3 flex w-full flex-col gap-y-3 rounded-lg bg-white p-3 text-sm md:w-96">
               <div className="flex flex-col items-start gap-y-2">
                 <div className="flex w-full items-center justify-between">
-                  <span>مجموع قیمت:</span>
+                  <span>مجموع قیمت :</span>
                   <span className="text-lg text-red-500">
                     {digitsEnToAr(addCommas(totalPrice))}
                   </span>
                 </div>
-                {discountRes.boolean ? (
-                  <div className="flex w-full items-center justify-between">
-                    <span>تخفیف:</span>
-                    <span className="text-lg text-green-500">
-                      {digitsEnToAr(addCommas(discountRes.discount))}
-                    </span>
-                  </div>
-                ) : (
-                  ""
-                )}
                 <div className="flex w-full items-center justify-between">
-                  <span
-                    className="cursor-pointer text-xs text-blue-500"
-                    onClick={() =>
-                      document
-                        .getElementById("discountChecker")
-                        .classList.toggle("hidden")
-                    }
-                  >
-                    کد تخفیف دارید؟
+                  <span>مجموع تخفیف :</span>
+                  <span className="text-lg text-green-500">
+                    {digitsEnToAr(addCommas("0"))}
                   </span>
-                  <div className="relative flex flex-col items-end">
-                    <div
-                      className="mb-1 flex hidden items-center pt-1"
-                      id="discountChecker"
-                    >
-                      <input
-                        type="text"
-                        className="ltr w-20 rounded-r-md border border-gray-600 px-2 focus:outline-none"
-                        placeholder="abc123"
-                        onChange={(e) => handleDiscountCode_FC(e)}
-                      />
-                      <button
-                        className="rounded-l-md bg-orange-500 py-[3.3px] px-1 text-xs text-white"
-                        onClick={handleDiscount_FC}
-                      >
-                        تایید
-                      </button>
-                    </div>
-                    {discountRes.boolean ? (
-                      <span className="text-xs font-bold text-green-500">
-                        {discountRes.response}
-                      </span>
-                    ) : (
-                      <span className="text-xs font-bold text-red-500">
-                        {discountRes.response}
-                      </span>
-                    )}
-                  </div>
                 </div>
               </div>
               <hr />
               <div className="flex w-full items-center justify-between">
-                <span>قیمت نهایی:</span>
+                <span>قیمت نهایی :</span>
                 <span className="text-lg text-green-500">
                   {discountRes.boolean
-                    ? digitsEnToAr(addCommas(totalPrice - discountRes.discount))
+                    ? digitsEnToAr(addCommas(finalPrice))
                     : digitsEnToAr(addCommas(totalPrice))}
                 </span>
+              </div>
+              <div className="mt-2 flex w-full items-center justify-end md:justify-center">
+                <Link
+                  to={userData ? "/checkout" : "/login?redirect=/checkout"}
+                  className="block rounded-md bg-orange-500 p-2 px-3 text-white"
+                >
+                  خرید خود را نهایی کنید
+                </Link>
               </div>
             </section>
           </section>
@@ -164,4 +151,4 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+export default CartPage;

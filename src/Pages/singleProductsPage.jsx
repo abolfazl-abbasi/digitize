@@ -7,6 +7,8 @@ import {
   HiOutlineX,
   HiOutlineDesktopComputer,
   HiCheck,
+  HiOutlineHeart,
+  HiHeart,
 } from "react-icons/hi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -24,20 +26,17 @@ import {
   useProductsDispatcher,
 } from "../Providers/productsProvider";
 
-function Product() {
+function ProductPage() {
   const par = useParams();
   const [isShow, setIsShow] = useState(false);
   const cart = useCart();
   const grouping = useGrouping();
   const products = useProducts();
-  // const setProducts = useProducts();
-  // const setProductsShow = useProductsShow();
   const { handleAddToCart_FC } = useCartDispatcher();
-  const { setProducts, setProductsShow } = useProductsDispatcher();
+  const { setProducts, setProductsShow, handleLike } = useProductsDispatcher();
   const { handleGrouping } = useSaGDispatcher();
-
-  const [product, setProduct] = useState(
-    products.find((pro) => pro.id === Number(par.id))
+  const [index] = useState(
+    products.indexOf(products.find((pro) => pro.id === par.id))
   );
 
   const review = useRef();
@@ -62,7 +61,7 @@ function Product() {
 
   return (
     <>
-      <Layout title={product.titleFa}>
+      <Layout title={products[index].titleFa}>
         {/* BradCrumb (( Desktop )) */}
         <section className="mt-5 md:hidden">
           <div className="container mx-auto flex items-center px-6 text-[10px] font-bold">
@@ -167,40 +166,42 @@ function Product() {
                         className="flex h-1/4 w-screen items-center justify-center lg:w-[200px]"
                         id="swiper"
                       >
-                        {product.images.map((image) => (
+                        {products[index].images.map((image) => (
                           <SwiperSlide
                             className="flex items-center justify-center"
                             key={
-                              product.images.indexOf(image).toString() +
+                              products[index].images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                           >
                             <img
                               src={image}
                               className="w-2/5 sm:w-1/4 lg:w-[700px]"
-                              alt={product.titleEn}
+                              alt={products[index].titleEn}
                             />
                           </SwiperSlide>
                         ))}
                       </Swiper>
                       <div className="slider-scroller hidden items-center overflow-y-hidden px-4 py-2 lg:flex lg:h-20 lg:w-48 lg:px-0">
-                        {product.images.map((image) => (
+                        {products[index].images.map((image) => (
                           <div
                             key={
-                              product.images.indexOf(image).toString() +
+                              products[index].images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                             onClick={() =>
                               document
                                 .getElementById("swiper")
-                                .swiper.slideTo(product.images.indexOf(image))
+                                .swiper.slideTo(
+                                  products[index].images.indexOf(image)
+                                )
                             }
                             className="border-1 ml-8 flex flex-shrink-0 items-center justify-center rounded-lg border-2 border-gray-400 p-1 lg:ml-4"
                           >
                             <img
                               src={image}
                               className="w-10"
-                              alt={`${product.titleEn}`}
+                              alt={`${products[index].titleEn}`}
                             />
                           </div>
                         ))}
@@ -209,11 +210,27 @@ function Product() {
                   </div>
                   <div className="w-60">
                     {/* Product Titles */}
-                    <div className="my-10 flex flex-col items-center gap-1 text-center lg:my-5 lg:items-start">
-                      <h1 className="text-lg font-bold">{product.titleFa}</h1>
-                      <p className="text-sm font-light text-gray-600">
-                        {product.titleEn}
-                      </p>
+                    <div className="my-10 flex items-center gap-1 text-center lg:my-5 lg:items-start">
+                      <div className="my-10 flex flex-col items-center gap-1 text-center lg:my-5 lg:items-start">
+                        <h1 className="text-lg font-bold">
+                          {products[index].titleFa}
+                        </h1>
+                        <p className="text-sm font-light text-gray-600">
+                          {products[index].titleEn}
+                        </p>
+                      </div>
+                      <div className="relative flex justify-end">
+                        <div
+                          className="absolute right-14 top-5 inline-flex cursor-pointer rounded-full bg-[#00000020] p-1"
+                          onClick={() => handleLike(products[index])}
+                        >
+                          {products[index].liked ? (
+                            <HiHeart className="h-4 w-4 fill-red-500 transition-colors" />
+                          ) : (
+                            <HiOutlineHeart className="h-4 w-4 stroke-red-500" />
+                          )}
+                        </div>
+                      </div>
                     </div>
 
                     <hr className="hidden lg:block" />
@@ -224,14 +241,13 @@ function Product() {
                         انتخاب رنگ :
                       </span>
                       <div className="flex items-center">
-                        {product.color.map((proColor) => {
+                        {products[index].color.map((proColor) => {
                           return (
                             <div
                               key={proColor + Math.random()}
                               onClick={(e) => {
-                                const updateProduct = { ...product };
+                                const updateProduct = { ...products[index] };
                                 updateProduct.activeColor = proColor;
-                                setProduct({ ...updateProduct });
                                 const updateProducts = [...products];
                                 updateProducts[par.id - 1] = {
                                   ...updateProduct,
@@ -240,14 +256,14 @@ function Product() {
                                 setProductsShow([...updateProducts]);
                               }}
                               className={`-mr-1 h-4 w-4 sm:h-5 sm:w-5 bg-${proColor} flex items-center justify-center rounded-full  ${
-                                product.activeColor === `${proColor}`
+                                products[index].activeColor === `${proColor}`
                                   ? `ring-2 ring-${proColor} ring-offset-2`
                                   : ""
                               }`}
                             >
                               <HiCheck
                                 className={`h-3 w-3 text-white ${
-                                  product.activeColor === `${proColor}`
+                                  products[index].activeColor === `${proColor}`
                                     ? "block"
                                     : "hidden"
                                 }`}
@@ -269,7 +285,7 @@ function Product() {
                             حافظه داخلی :
                           </span>
                           <span className="mr-8 text-gray-500">
-                            {product.properties.memory}
+                            {products[index].properties.memory}
                           </span>
                         </li>
                         <li className="flex flex-col gap-x-4 text-sm">
@@ -277,7 +293,7 @@ function Product() {
                             اندازه صفحه نمایش :
                           </span>
                           <span className="mr-8 text-gray-500">
-                            {product.properties.resolution} اینچ
+                            {products[index].properties.resolution} اینچ
                           </span>
                         </li>
 
@@ -286,10 +302,12 @@ function Product() {
                             شبکه ها :
                           </span>
                           <span className="mr-8 text-gray-500">
-                            {product.properties.networks.map((net) => (
+                            {products[index].properties.networks.map((net) => (
                               <p
                                 className="ml-2 inline-block"
-                                key={product.properties.networks.indexOf(net)}
+                                key={products[
+                                  index
+                                ].properties.networks.indexOf(net)}
                               >
                                 {net}
                               </p>
@@ -318,40 +336,42 @@ function Product() {
                         className="flex h-4/5 w-screen items-center justify-center"
                         id="swiper2"
                       >
-                        {product.images.map((image) => (
+                        {products[index].images.map((image) => (
                           <SwiperSlide
                             className="flex items-center justify-center"
                             key={
-                              product.images.indexOf(image).toString() +
+                              products[index].images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                           >
                             <img
                               src={image}
                               className="w-72"
-                              alt={`${product.titleEn}`}
+                              alt={`${products[index].titleEn}`}
                             />
                           </SwiperSlide>
                         ))}
                       </Swiper>
                       <div className="fixed bottom-0 flex items-center overflow-auto px-4 py-2">
-                        {product.images.map((image) => (
+                        {products[index].images.map((image) => (
                           <div
                             key={
-                              product.images.indexOf(image).toString() +
+                              products[index].images.indexOf(image).toString() +
                               Math.random().toString(32)
                             }
                             onClick={() =>
                               document
                                 .getElementById("swiper2")
-                                .swiper.slideTo(product.images.indexOf(image))
+                                .swiper.slideTo(
+                                  products[index].images.indexOf(image)
+                                )
                             }
                             className="ml-8 flex w-1/4 flex-shrink-0 items-center justify-center rounded-lg border-2 border-gray-400 p-2 ring-1 sm:w-1/5 lg:mx-2"
                           >
                             <img
                               src={image}
                               className="w-32"
-                              alt={`${product.titleEn}`}
+                              alt={`${products[index].titleEn}`}
                             />
                           </div>
                         ))}
@@ -371,7 +391,7 @@ function Product() {
                           فروشنده :
                         </span>
                         <span className="mx-1 text-xs font-bold">
-                          {product.services.seller}
+                          {products[index].services.seller}
                         </span>
                       </div>
                       <div className="my-2 mx-1 flex items-center text-gray-700">
@@ -382,7 +402,7 @@ function Product() {
                           گارانتی :
                         </span>
                         <span className="mx-1 text-xs font-bold">
-                          {product.services.warranty}
+                          {products[index].services.warranty}
                         </span>
                       </div>
                       <div className="my-2 mx-1 flex items-center text-gray-700">
@@ -393,7 +413,7 @@ function Product() {
                           ارسال توسط :
                         </span>
                         <span className="mx-1 text-xs font-bold">
-                          {product.services.postedBy}
+                          {products[index].services.postedBy}
                         </span>
                       </div>
                     </div>
@@ -401,21 +421,27 @@ function Product() {
                     {/* Add To Cart and Price (( Desktop )) */}
                     <div className="mt-8 hidden items-center justify-between gap-x-4 lg:flex">
                       {cart
-                        .map((pro) => pro.id === product.id)
+                        .map(
+                          (pro) =>
+                            pro.id === products[index].id &&
+                            pro.activeColor === products[index].activeColor
+                        )
                         .indexOf(true) !== -1 ? (
                         <button className="rounded-md bg-orange-500 p-2 text-white">
                           اضافه شد!
                         </button>
                       ) : (
                         <button
-                          onClick={(e) => handleAddToCart_FC(product)}
+                          onClick={(e) => handleAddToCart_FC(products[index])}
                           className="rounded-md bg-orange-500 p-2 text-white"
                         >
                           افزودن به سبد
                         </button>
                       )}
                       <span className="flex flex-col items-center justify-center text-sm font-bold text-orange-500">
-                        <span>{digitsEnToAr(addCommas(product.price))}</span>
+                        <span>
+                          {digitsEnToAr(addCommas(products[index].price))}
+                        </span>
                         <span>تومان</span>
                       </span>
                     </div>
@@ -432,7 +458,7 @@ function Product() {
                         حافظه داخلی :
                       </span>
                       <span className="mr-8 mt-1 text-gray-500">
-                        {product.properties.memory}
+                        {products[index].properties.memory}
                       </span>
                     </li>
                     <hr />
@@ -441,7 +467,7 @@ function Product() {
                         اندازه صفحه نمایش :
                       </span>
                       <span className="mr-8 mt-1 text-gray-500">
-                        {product.properties.resolution} اینچ
+                        {products[index].properties.resolution} اینچ
                       </span>
                     </li>
                     <hr />
@@ -450,10 +476,12 @@ function Product() {
                         شبکه ها :
                       </span>
                       <span className="mr-8 mt-1 text-gray-500">
-                        {product.properties.networks.map((net) => (
+                        {products[index].properties.networks.map((net) => (
                           <p
                             className="ml-2 inline-block"
-                            key={product.properties.networks.indexOf(net)}
+                            key={products[index].properties.networks.indexOf(
+                              net
+                            )}
                           >
                             {net}
                           </p>
@@ -470,7 +498,7 @@ function Product() {
                     className="min-h-24 inline-block max-h-44 overflow-hidden text-ellipsis text-justify text-xs leading-6 text-gray-500"
                     ref={review}
                   >
-                    {product.properties.review}
+                    {products[index].properties.review}
                   </p>
                   <button
                     className="mt-3 inline-block self-end text-orange-500"
@@ -516,31 +544,37 @@ function Product() {
                   <div className="lg:hidden">
                     <div className="my-3 px-2">
                       <h2 className="my-3">
-                        {product.properties[property][0]}
+                        {products[index].properties[property][0]}
                       </h2>
                       <p className="text-justify text-xs leading-6 text-gray-500">
-                        {product.properties[property][1]}
+                        {products[index].properties[property][1]}
                       </p>
                     </div>
                   </div>
                   {/* product properties Review (( Desktop )) */}
                   <div className="hidden lg:block">
                     <div className="mb-12 px-2">
-                      <h2 className="mb-2">{product.properties.design[0]}</h2>
+                      <h2 className="mb-2">
+                        {products[index].properties.design[0]}
+                      </h2>
                       <p className="text-justify text-xs leading-6 text-gray-500">
-                        {product.properties.design[1]}
+                        {products[index].properties.design[1]}
                       </p>
                     </div>
                     <div className="mb-12 px-2">
-                      <h2 className="mb-2">{product.properties.battery[0]}</h2>
+                      <h2 className="mb-2">
+                        {products[index].properties.battery[0]}
+                      </h2>
                       <p className="text-justify text-xs leading-6 text-gray-500">
-                        {product.properties.battery[1]}
+                        {products[index].properties.battery[1]}
                       </p>
                     </div>
                     <div className="mb-12 px-2">
-                      <h2 className="mb-2">{product.properties.camera[0]}</h2>
+                      <h2 className="mb-2">
+                        {products[index].properties.camera[0]}
+                      </h2>
                       <p className="text-justify text-xs leading-6 text-gray-500">
-                        {product.properties.camera[1]}
+                        {products[index].properties.camera[1]}
                       </p>
                     </div>
                   </div>
@@ -554,20 +588,21 @@ function Product() {
       {/* Navigator (( Mobile )) */}
       <div className="sticky bottom-0 left-0 z-10 flex h-16 w-full items-center justify-between rounded-t-lg bg-white px-5 shadow-md lg:hidden">
         <div className="container mx-auto flex w-full items-center justify-between">
-          {cart.map((pro) => pro.id === product.id).indexOf(true) !== -1 ? (
+          {cart.map((pro) => pro.id === products[index].id).indexOf(true) !==
+          -1 ? (
             <button className="w-1/2 rounded-md bg-orange-500 py-2 text-white">
               اضافه شد!
             </button>
           ) : (
             <button
-              onClick={(e) => handleAddToCart_FC(product)}
+              onClick={(e) => handleAddToCart_FC(products[index])}
               className="w-1/2 rounded-md bg-orange-500 py-2 text-white"
             >
               افزودن به سبد
             </button>
           )}
           <span className="mr-4 flex items-center justify-center text-xl font-bold text-orange-500">
-            <span>{digitsEnToAr(addCommas(product.price))} تومان</span>
+            <span>{digitsEnToAr(addCommas(products[index].price))} تومان</span>
           </span>
         </div>
       </div>
@@ -575,4 +610,4 @@ function Product() {
   );
 }
 
-export default Product;
+export default ProductPage;

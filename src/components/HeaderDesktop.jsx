@@ -1,19 +1,41 @@
-import React from "react";
-import { HiOutlineSearch } from "react-icons/hi";
+import React, { useRef } from "react";
+import {
+  HiOutlineChevronDown,
+  HiOutlineLibrary,
+  HiOutlineLogin,
+  HiOutlineLogout,
+  HiOutlineSearch,
+  HiOutlineTruck,
+  HiUser,
+} from "react-icons/hi";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useCart } from "../Providers/CartProvider";
+import { useUserData } from "../Providers/SignProvider";
 import { useSaGDispatcher } from "../Providers/Sort&Grouping";
 
 const HeaderDesktop = () => {
   const cart = useCart();
   const { handleSearch } = useSaGDispatcher();
+  const userData = useUserData();
 
   const loc = useLocation();
   const his = useHistory();
 
+  const userDataAcc = useRef();
+  const userDataAccBg = useRef();
+
+  const handleUserAcc = (e) => {
+    userDataAcc.current.classList.toggle("!block");
+    userDataAccBg.current.classList.toggle("!block");
+    if (e === "bg") {
+      userDataAcc.current.classList.remove("!block");
+      userDataAccBg.current.classList.remove("!block");
+    }
+  };
+
   return (
     <>
-      <header className="sticky top-0 z-[9999] mb-6 hidden h-20 w-full bg-white shadow-md md:flex">
+      <header className="sticky top-0 z-[999] mb-6 hidden h-20 w-full bg-white shadow-md md:flex">
         <div className="container mx-auto flex items-center justify-between">
           <div className="flex items-center justify-center">
             {/* LOGO */}
@@ -93,6 +115,67 @@ const HeaderDesktop = () => {
               className="w-full bg-stone-100  py-[6px] px-2 outline-none placeholder:text-gray-400"
               placeholder="جستجوی نام محصول , نام برند و ..."
             />
+            <div className="mr-8">
+              {userData ? (
+                <>
+                  <button className="relative flex items-center">
+                    <div className="flex items-center" onClick={handleUserAcc}>
+                      <span className="ml-1 inline-flex h-9 w-9 items-center justify-center rounded-full border-2 border-orange-500 pr-1">
+                        <HiUser className="ml-1 h-6 w-6 text-orange-500" />
+                      </span>
+                      <HiOutlineChevronDown className="h-4 w-4 text-orange-600" />
+                    </div>
+                    <div
+                      className="absolute top-12 left-0 z-50 hidden h-auto max-h-fit w-48 rounded-2xl bg-white md:shadow-lg"
+                      ref={userDataAcc}
+                    >
+                      <ul className="px-2">
+                        <Link to={"/profile"}>
+                          <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-600">
+                            <span>
+                              <HiOutlineLibrary className="ml-2 h-5 w-5" />
+                            </span>
+                            <span>پروفایل کاربری</span>
+                          </button>
+                        </Link>
+                        <Link to={"/profile/orders"}>
+                          <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-700 hover:bg-blue-100 hover:text-blue-600">
+                            <span>
+                              <HiOutlineTruck className="ml-2 h-5 w-5" />
+                            </span>
+                            <span>خرید های قبلی</span>
+                          </button>
+                        </Link>
+                        <hr />
+                        <button className="my-3 flex w-full items-center rounded-md p-2 text-gray-500 hover:bg-red-100 hover:text-red-600">
+                          <span>
+                            <HiOutlineLogout className="ml-2 h-5 w-5" />
+                          </span>
+                          <span>خروج از حساب</span>
+                        </button>
+                      </ul>
+                    </div>
+                  </button>
+                  <div
+                    className="fixed top-0 left-0 hidden h-screen w-screen"
+                    ref={userDataAccBg}
+                    onClick={() => handleUserAcc("bg")}
+                  ></div>
+                </>
+              ) : (
+                <div className="hidden items-center justify-end lg:flex">
+                  <Link
+                    className="ml-1 flex items-center rounded-md px-2 py-1 text-orange-600 transition-colors hover:bg-orange-500 hover:text-white"
+                    to={"/login"}
+                  >
+                    <span>
+                      <HiOutlineLogin className="ml-2 h-5 w-5" />
+                    </span>
+                    <span className="mb-1">ورود</span>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>

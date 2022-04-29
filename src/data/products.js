@@ -1,6 +1,6 @@
 const Products = [
   {
-    id: 1,
+    id: "1",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -8,7 +8,6 @@ const Products = [
     titleFa: "آیفون 13 pro max",
     price: 52_800_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/1.png"),
     images: [
       require("./../assets/img/Home/1.png"),
@@ -90,10 +89,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 2,
+    id: "2",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -101,7 +99,6 @@ const Products = [
     titleFa: "آیفون 13 pro",
     price: 49_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/2.png"),
     images: [
       require("./../assets/img/Home/2.png"),
@@ -183,10 +180,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 3,
+    id: "3",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -194,7 +190,6 @@ const Products = [
     titleFa: "آیفون 13",
     price: 42_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/3.png"),
     images: [
       require("./../assets/img/Home/3.png"),
@@ -276,10 +271,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 4,
+    id: "4",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -287,7 +281,6 @@ const Products = [
     titleFa: "آیفون 12 pro max",
     price: 38_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/4.png"),
     images: [
       require("./../assets/img/Home/4.png"),
@@ -369,10 +362,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 5,
+    id: "5",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -380,7 +372,6 @@ const Products = [
     titleFa: "آیفون 12 pro",
     price: 29_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/5.png"),
     images: [
       require("./../assets/img/Home/5.png"),
@@ -462,10 +453,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 6,
+    id: "6",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -473,7 +463,6 @@ const Products = [
     titleFa: "آیفون 13 pro max",
     price: 52_800_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/1.png"),
     images: [
       require("./../assets/img/Home/1.png"),
@@ -555,10 +544,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 7,
+    id: "7",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -566,7 +554,6 @@ const Products = [
     titleFa: "آیفون 13 pro",
     price: 49_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/2.png"),
     images: [
       require("./../assets/img/Home/2.png"),
@@ -648,10 +635,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 8,
+    id: "8",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -659,7 +645,6 @@ const Products = [
     titleFa: "آیفون 13",
     price: 42_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/3.png"),
     images: [
       require("./../assets/img/Home/3.png"),
@@ -741,10 +726,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 9,
+    id: "9",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -752,7 +736,6 @@ const Products = [
     titleFa: "آیفون 12 pro max",
     price: 38_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/4.png"),
     images: [
       require("./../assets/img/Home/4.png"),
@@ -834,10 +817,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 10,
+    id: "10",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -845,7 +827,6 @@ const Products = [
     titleFa: "آیفون 12 pro",
     price: 29_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/5.png"),
     images: [
       require("./../assets/img/Home/5.png"),
@@ -927,10 +908,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 11,
+    id: "11",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -938,7 +918,6 @@ const Products = [
     titleFa: "آیفون 13 pro max",
     price: 52_800_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/1.png"),
     images: [
       require("./../assets/img/Home/1.png"),
@@ -1020,10 +999,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 12,
+    id: "12",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -1031,7 +1009,6 @@ const Products = [
     titleFa: "آیفون 13 pro",
     price: 49_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/2.png"),
     images: [
       require("./../assets/img/Home/2.png"),
@@ -1113,10 +1090,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 13,
+    id: "13",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -1124,7 +1100,6 @@ const Products = [
     titleFa: "آیفون 13",
     price: 42_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/3.png"),
     images: [
       require("./../assets/img/Home/3.png"),
@@ -1206,10 +1181,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 14,
+    id: "14",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -1217,7 +1191,6 @@ const Products = [
     titleFa: "آیفون 12 pro max",
     price: 38_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/4.png"),
     images: [
       require("./../assets/img/Home/4.png"),
@@ -1299,10 +1272,9 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
   {
-    id: 15,
+    id: "15",
     category: "smartPhone",
     brandEn: "Apple",
     brandFa: "اپل",
@@ -1310,7 +1282,6 @@ const Products = [
     titleFa: "آیفون 12 pro",
     price: 29_500_000,
     color: ["red-400", "blue-500", "green-400", "purple-500", "stone-900"],
-    activeColor: "",
     mainImage: require("./../assets/img/Home/5.png"),
     images: [
       require("./../assets/img/Home/5.png"),
@@ -1392,7 +1363,6 @@ const Products = [
       دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.`,
       ],
     },
-    liked: false,
   },
 ];
 

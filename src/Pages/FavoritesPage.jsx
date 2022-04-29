@@ -14,14 +14,9 @@ import {
 } from "../Providers/productsProvider";
 import { Link } from "react-router-dom";
 
-const Favorites = () => {
+const FavoritesPage = () => {
   const cart = useCart();
-  // const discountCode = useDiscountCode();
-  // const discountRes = useDiscountRes();
-  // const totalPrice = useTotalPrice();
-  // const productsShow = useProductsShow();
   const favorites = useFavorites();
-  console.log(favorites);
 
   const { handleAddToCart_FC } = useCartDispatcher();
 
@@ -32,11 +27,11 @@ const Favorites = () => {
       <Layout title={"موردعلاقه ها"}>
         {favorites.length > 0 ? (
           <section className="container my-5 mx-auto flex min-h-screen w-fit flex-col items-start gap-y-6 px-5 md:w-full md:flex-row md:gap-x-4 md:px-0">
-            <section className="flex flex-col items-center gap-y-1 md:w-full">
+            <section className="grid grid-cols-12 gap-x-8 md:w-full">
               {favorites.map((product) => (
                 <div
                   key={product.id + Math.random()}
-                  className="mb-5 flex w-full items-center justify-between rounded-lg bg-white py-2 px-3"
+                  className="col-span-12 mb-5 flex w-full items-center justify-between rounded-lg bg-white py-2 px-3 lg:col-span-6"
                 >
                   <Link
                     to={{ pathname: `/products/${product.id}` }}
@@ -101,4 +96,4 @@ const Favorites = () => {
   );
 };
 
-export default Favorites;
+export default FavoritesPage;
