@@ -180,8 +180,20 @@ const CheckoutPage = () => {
                       </span>
                     </button>
                   </div>
-                  <div className="my-2 w-5/6 text-lg">{address.address}</div>
-                  <div className="my-2 text-gray-600">{address.name}</div>
+                  {address.address ? (
+                    <div className="my-2 w-5/6 text-lg">{address.address}</div>
+                  ) : (
+                    <div className="my-2 w-5/6 text-lg text-red-500">
+                      *لطفا نشانی محل اقامت خود را وارد کنید.
+                    </div>
+                  )}
+                  {address.name ? (
+                    <div className="my-2 text-gray-600">{address.name}</div>
+                  ) : (
+                    <div className="my-2 w-5/6 text-lg text-red-500">
+                      *لطفا نام فرد تحویل گیرنده بسته را وارد کنید.
+                    </div>
+                  )}
                 </div>
               )}
             </div>
